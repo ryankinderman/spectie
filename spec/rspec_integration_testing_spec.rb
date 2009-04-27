@@ -4,7 +4,7 @@ describe "RspecIntegrationTesting" do
 
   it "returns the custom integration-testing example group from 'integration' type" do
     example_group = Spec::Example::ExampleGroupFactory.create_example_group(:type => :integration) {}
-    example_group.superclass.should == RspecRailsIntegrationExampleGroup
+    example_group.superclass.should == RspecIntegrationTesting::RailsExampleGroup
   end
 
 end
