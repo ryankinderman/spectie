@@ -1,6 +1,20 @@
 = rspec_integration_testing
 
-Description goes here.
+Simple RSpec integration testing for Rails. 
+
+Use this for writing integration tests for your Rails application if you are
+on a project whose manager doesn't care about your stinking tests, and just 
+wants results. In such an environment, spending time and effort crafting 
+plain-text integration tests with tools such as Cucumber that the business 
+can read and (maybe even) write is often more work than it's worth, due to
+the extra cost of maintaining the extra layer of indirection that is often
+required to 1) parse and 2) author code to support integration tests in plain 
+text.
+
+== Author
+
+Ryan Kinderman
+ryan@kinderman.net
 
 == Copyright
 

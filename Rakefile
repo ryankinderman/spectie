@@ -10,7 +10,7 @@ begin
     gem.homepage = "http://github.com/ryankinderman/rspec_integration_testing"
     gem.authors = ["Ryan Kinderman"]
     gem.rubyforge_project = "rspec_integration_testing"
-  
+
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
@@ -50,10 +50,10 @@ end
 begin
   require 'rake/contrib/sshpublisher'
   namespace :rubyforge do
-    
+
     desc "Release gem and RDoc documentation to RubyForge"
     task :release => ["rubyforge:release:gem", "rubyforge:release:docs"]
-    
+
     namespace :release do
       desc "Publish RDoc to RubyForge."
       task :docs => [:rdoc] do
