@@ -1,0 +1,7 @@
+= rspec_integration_testing
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Ryan Kinderman. See LICENSE for details.
