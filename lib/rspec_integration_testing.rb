@@ -1,0 +1,1 @@
+require "rspec_integration_testing/rspec_rails_integration_example_group"

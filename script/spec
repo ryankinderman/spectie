@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require File.expand_path(File.dirname(__FILE__) + "/../initialize")
+
+begin
+  require 'spec/autorun'
+rescue LoadError
+  raise "RSpec not installed. Install it with: sudo gem install rspec"
+end
+
+exit ::Spec::Runner::CommandLine.run
