@@ -11,5 +11,5 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rspec_integration_testing'
 
 Spec::Runner.configure do |config|
-
+  config.mock_with :mocha
 end

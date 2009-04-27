@@ -7,6 +7,10 @@ module RspecIntegrationTesting
         example(description, options={}, backtrace=nil, &implementation)
       end
 
+      def xscenario(description, options={}, &implementation)
+        xexample description, options, &implementation
+      end
+
     end
 
     Spec::Example::ExampleGroupFactory.register(:integration, self)
