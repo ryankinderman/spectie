@@ -26,10 +26,10 @@ module RspecIntegrationTesting
       it "supports 'scenario' method for creating an example" do
         example_group = Class.new(RailsExampleGroup)
         example_ran_as_scenario = false
+
         example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
           example_ran_as_scenario = true
         end
-
         example_group.run(@options)
 
         example_ran_as_scenario.should be_true
@@ -39,10 +39,10 @@ module RspecIntegrationTesting
         example_group = Class.new(RailsExampleGroup)
         example_ran_as_scenario = false
         Kernel.expects(:warn).with { |message| message =~ /^Example disabled/  }
+
         example_group.xscenario "As a user, I want to make a series of requests for our mutual benefit" do
           example_ran_as_scenario = true
         end
-
         example_group.run(@options)
 
         example_ran_as_scenario.should be_false
@@ -56,15 +56,6 @@ module RspecIntegrationTesting
         example_group.run(@options)
       end
 
-    end
-
-  end
-
-
-  class ExampleSupportsScenarios < RailsExampleGroup
-    describe RailsExampleGroup, "supporting scenarios"
-
-    scenario "As a user of a system, I would like to make a series of requests against your system" do
     end
 
   end
