@@ -1,6 +1,6 @@
 module RspecIntegrationTesting
 
-  class RailsExampleGroup < Spec::Example::ExampleGroup
+  class StoryExampleGroup < Spec::Example::ExampleGroup
 
     class << self
 

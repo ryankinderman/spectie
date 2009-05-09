@@ -43,10 +43,10 @@ end
 
 module RspecIntegrationTesting
 
-  describe RailsExampleGroup do
+  describe StoryExampleGroup do
 
     it "is a subclass of RSpec's ExampleGroup" do
-      RspecIntegrationTesting::RailsExampleGroup.superclass.should == Spec::Example::ExampleGroup
+      RspecIntegrationTesting::StoryExampleGroup.superclass.should == Spec::Example::ExampleGroup
     end
 
     describe "#run with scenarios" do
@@ -54,7 +54,7 @@ module RspecIntegrationTesting
       prevent_reporting_run_results_for_examples_being_tested
 
       it "supports 'xscenario' method for disabling an example" do
-        example_group = Class.new(RailsExampleGroup)
+        example_group = Class.new(StoryExampleGroup)
         example_ran_as_scenario = false
         Kernel.expects(:warn).with { |message| message =~ /^Example disabled/  }
 
@@ -67,7 +67,7 @@ module RspecIntegrationTesting
       end
 
       it "supports pending scenarios" do
-        example_group = Class.new(RailsExampleGroup)
+        example_group = Class.new(StoryExampleGroup)
         example_group.scenario "As a user, I want to make a series of requests for our mutual benefit"
         @options.reporter.expects(:example_finished).with(anything, ::Spec::Example::ExamplePendingError)
 
@@ -75,7 +75,7 @@ module RspecIntegrationTesting
       end
 
       it "supports 'scenario' method for creating an example" do
-        example_group = Class.new(RailsExampleGroup)
+        example_group = Class.new(StoryExampleGroup)
         example_ran_as_scenario = false
 
         example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
@@ -88,7 +88,7 @@ module RspecIntegrationTesting
 
       [:Given, :When, :Then].each do |scenario_statement_prefix|
         it "can use #{scenario_statement_prefix} to call dsl methods from within the scenario" do
-          example_group = Class.new(RailsExampleGroup) do
+          example_group = Class.new(StoryExampleGroup) do
             class << self
               attr_accessor :scenario_statement_was_executed
             end
@@ -110,7 +110,7 @@ module RspecIntegrationTesting
       end
 
       it "has access to the dsl methods defined on a parent example group" do
-        parent_example_group = Class.new(RailsExampleGroup) do
+        parent_example_group = Class.new(StoryExampleGroup) do
           class << self
             attr_accessor :scenario_statement_was_executed
           end
@@ -131,7 +131,7 @@ module RspecIntegrationTesting
       end
 
       it "can override the definition of a dsl method on a parent example group" do
-        parent_example_group = Class.new(RailsExampleGroup) do
+        parent_example_group = Class.new(StoryExampleGroup) do
           class << self
             attr_accessor :scenario_statement_was_executed
           end
@@ -157,7 +157,7 @@ module RspecIntegrationTesting
       end
 
       xit "cannot call a dsl method without Given" do
-        example_group = Class.new(RailsExampleGroup)
+        example_group = Class.new(StoryExampleGroup)
         example_group.class_eval do
           class << self
             attr_accessor :given_was_executed
