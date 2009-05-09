@@ -5,13 +5,11 @@ module RspecIntegrationTesting
     class << self
 
       def dsl(&implementation)
-        @dsl = implementation unless implementation.nil?
-        @dsl
+        class_eval &implementation
       end
 
       def scenario(description, options={}, backtrace=nil, &implementation)
         example(description, options, backtrace) do
-          instance_eval &self.class.dsl unless self.class.dsl.nil?
           instance_eval &implementation
         end
       end

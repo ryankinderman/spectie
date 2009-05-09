@@ -88,8 +88,7 @@ module RspecIntegrationTesting
 
       [:Given, :When, :Then].each do |scenario_statement_prefix|
         it "can use #{scenario_statement_prefix} to call dsl methods from within the scenario" do
-          example_group = Class.new(RailsExampleGroup)
-          example_group.class_eval do
+          example_group = Class.new(RailsExampleGroup) do
             class << self
               attr_accessor :scenario_statement_was_executed
             end
@@ -108,6 +107,53 @@ module RspecIntegrationTesting
 
           example_group.scenario_statement_was_executed.should be_true
         end
+      end
+
+      it "has access to the dsl methods defined on a parent example group" do
+        parent_example_group = Class.new(RailsExampleGroup) do
+          class << self
+            attr_accessor :scenario_statement_was_executed
+          end
+        end
+        parent_example_group.dsl do
+          def i_am_executed
+            self.class.scenario_statement_was_executed = true
+          end
+        end
+        example_group = Class.new(parent_example_group)
+
+        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+          Given :i_am_executed
+        end
+        example_group.run(@options)
+
+        example_group.scenario_statement_was_executed.should be_true
+      end
+
+      it "can override the definition of a dsl method on a parent example group" do
+        parent_example_group = Class.new(RailsExampleGroup) do
+          class << self
+            attr_accessor :scenario_statement_was_executed
+          end
+        end
+        parent_example_group.dsl do
+          def i_am_executed
+            self.class.scenario_statement_was_executed = "parent"
+          end
+        end
+        example_group = Class.new(parent_example_group)
+        example_group.dsl do
+          def i_am_executed
+            self.class.scenario_statement_was_executed = "child"
+          end
+        end
+
+        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+          Given :i_am_executed
+        end
+        example_group.run(@options)
+
+        example_group.scenario_statement_was_executed.should == "child"
       end
 
       xit "cannot call a dsl method without Given" do
