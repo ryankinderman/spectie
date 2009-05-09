@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require File.expand_path(File.dirname(__FILE__) + "/initialize")
 
 begin
   require 'jeweler'
