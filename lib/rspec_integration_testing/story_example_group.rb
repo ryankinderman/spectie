@@ -26,6 +26,5 @@ module RspecIntegrationTesting
       end
     end
 
-    Spec::Example::ExampleGroupFactory.register(:integration, self)
   end
 end
