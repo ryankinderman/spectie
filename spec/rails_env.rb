@@ -21,9 +21,3 @@ ActionController::IntegrationTest.class_eval do
   end
 end
 ###################################################################################
-
-begin
-  require "spec/rails"
-rescue LoadError
-  raise "RSpec-Rails not available. Install it with sudo gem install rspec-rails"
-end
