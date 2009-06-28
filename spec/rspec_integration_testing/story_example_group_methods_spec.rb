@@ -8,7 +8,7 @@ module RspecIntegrationTesting
 
   describe StoryExampleGroup do
 
-    prevent_reporting_run_results_for_examples_being_tested
+    track_example_run_state
 
     it "supports 'xscenario' method for disabling an example" do
       example_group = Class.new(StoryExampleGroup)
