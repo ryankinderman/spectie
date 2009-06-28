@@ -1,2 +1,3 @@
-require "rspec_integration_testing/story_example_group"
-Spec::Example::ExampleGroupFactory.register(:integration, RspecIntegrationTesting::StoryExampleGroup)
+require "rspec_integration_testing/story_example_group_methods"
+require "rspec_integration_testing/rails_story_example_group"
+

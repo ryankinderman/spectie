@@ -2,6 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 module RspecIntegrationTesting
 
+  class StoryExampleGroup
+    include StoryExampleGroupMethods
+  end
+
   describe StoryExampleGroup do
 
     prevent_reporting_run_results_for_examples_being_tested
