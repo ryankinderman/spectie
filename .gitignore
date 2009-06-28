@@ -4,6 +4,7 @@ coverage
 rdoc
 pkg
 vendor/*
+!vendor/.gitignore
 
 # Rails app ignores
 spec/rails_app/log/*
