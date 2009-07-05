@@ -113,6 +113,33 @@ module RspecIntegrationTesting
       example_group.scenario_statement_was_executed.should == "child"
     end
 
+    it "can handle DSL statement nesting" do
+      example_group = Class.new(StoryExampleGroup)
+      example_group.class_eval do
+        class << self
+          attr_accessor :nested_statement_was_executed
+        end
+      end
+      example_group.scenario "As a tester, I want to be able to write nested DSL statements" do
+        Given :this_statement_takes_a_block do 
+          Then :i_can_nest_a_statement
+        end
+      end
+      example_group.dsl do 
+        def this_statement_takes_a_block
+          yield
+        end
+        def i_can_nest_a_statement
+          self.class.nested_statement_was_executed = true
+        end
+      end
+
+      example_group.run(@options)
+
+      example.should_not be_failed
+      example_group.nested_statement_was_executed.should be_true
+    end
+
     xit "cannot call a dsl method without Given" do
       example_group = Class.new(StoryExampleGroup)
       example_group.class_eval do
