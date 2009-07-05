@@ -25,9 +25,11 @@ module RspecIntegrationTesting
         end
 
         [:Given, :When, :Then].each do |scenario_statement_prefix|
-          define_method scenario_statement_prefix do |dsl_method, *args|
-            send dsl_method, *args
+          class_eval <<-METHOD
+          def #{scenario_statement_prefix}(dsl_method, *args, &block)
+            send dsl_method, *args, &block
           end
+          METHOD
         end
       end
     end
