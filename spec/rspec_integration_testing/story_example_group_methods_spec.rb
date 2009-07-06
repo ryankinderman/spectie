@@ -113,14 +113,14 @@ module RspecIntegrationTesting
       example_group.scenario_statement_was_executed.should == "child"
     end
 
-    it "can handle DSL statement nesting" do
+    it "can handle dsl statement nesting" do
       example_group = Class.new(StoryExampleGroup)
       example_group.class_eval do
         class << self
           attr_accessor :nested_statement_was_executed
         end
       end
-      example_group.scenario "As a tester, I want to be able to write nested DSL statements" do
+      example_group.scenario "As a tester, I want to be able to write nested dsl statements" do
         Given :this_statement_takes_a_block do 
           Then :i_can_nest_a_statement
         end
@@ -138,6 +138,36 @@ module RspecIntegrationTesting
 
       example.should_not be_failed
       example_group.nested_statement_was_executed.should be_true
+    end
+
+    xit "handles dsl methods that start with 'should'" do
+      # This example doesn't quite describe the issue. For some reason,
+      # RSpec treates methods inside an example group that start with 
+      # 'should' differently, and counts them as examples. Need to 
+      # figure out why before going any futher w/this.
+      example_group = Class.new(StoryExampleGroup)
+      example_group.class_eval do 
+        class << self
+          attr_accessor :called_the_method
+        end
+      end
+      example_group.scenario "As a tester, I want to start a dsl method with 'should'" do
+        Given :this_statement_calls_a_method_starting_with_should
+      end
+      example_group.dsl do 
+        def this_statement_calls_a_method_starting_with_should
+          should_do_something
+        end
+        def should_do_something
+          self.class.called_the_method = true
+          1.should == 1
+        end
+      end
+
+      example_group.run(@options)
+
+      example_group.called_the_method.should be_true
+      example.should_not be_failed
     end
 
     xit "cannot call a dsl method without Given" do
