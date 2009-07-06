@@ -1,6 +1,13 @@
+class ActionController::IntegrationTest
+  alias_method :orig_initialize, :initialize
+  def initialize(*args)
+    super
+  end
+end
+
 module RspecIntegrationTesting
 
-  class RailsStoryExampleGroup < Spec::Rails::Example::IntegrationExampleGroup
+  class RailsStoryExampleGroup < ActionController::IntegrationTest
     include StoryExampleGroupMethods
 
 #     def reset!
