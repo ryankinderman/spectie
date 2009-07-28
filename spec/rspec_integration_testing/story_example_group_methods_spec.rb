@@ -201,6 +201,68 @@ module RspecIntegrationTesting
       example_group.and_was_executed.should be_true
     end
 
+    it "can call 'Given' after 'When' by default" do
+      example_group = Class.new(StoryExampleGroup)
+      example_group.class_eval do
+        class << self
+          attr_accessor :given_was_executed
+          attr_accessor :when_was_executed
+        end
+        self.given_was_executed = false
+        self.when_was_executed = false
+      end
+
+      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+        When  :when_was_executed
+        Given :given_was_executed
+      end
+
+      dsl = example_group.dsl do
+        def given_was_executed
+          self.class.given_was_executed = true
+        end
+        def when_was_executed
+          self.class.when_was_executed = true
+        end
+      end
+      example_group.run(@options)
+
+      example.should_not be_failed
+      example_group.given_was_executed.should be_true
+      example_group.when_was_executed.should be_true
+    end
+    
+    it "can call 'And' in any order by default" do
+      example_group = Class.new(StoryExampleGroup)
+      example_group.class_eval do
+        class << self
+          attr_accessor :given_was_executed
+          attr_accessor :and_was_executed
+        end
+        self.given_was_executed = false
+        self.and_was_executed = false
+      end
+
+      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+        And   :and_was_executed
+        Given :given_was_executed
+      end
+
+      dsl = example_group.dsl do
+        def given_was_executed
+          self.class.given_was_executed = true
+        end
+        def and_was_executed
+          self.class.and_was_executed = true
+        end
+      end
+      example_group.run(@options)
+
+      example.should_not be_failed
+      example_group.given_was_executed.should be_true
+      example_group.and_was_executed.should be_true
+    end
+    
     it "shares state between the scenario and the scenario statements" do
       example_group = Class.new(StoryExampleGroup)
 
@@ -264,6 +326,37 @@ module RspecIntegrationTesting
         example_group.and_was_executed.should be_false
       end
 
+      it "requires that 'Given' be called before 'When'" do
+        example_group = Class.new(StoryExampleGroup)
+        example_group.class_eval do
+          class << self
+            attr_accessor :given_was_executed
+            attr_accessor :when_was_executed
+          end
+          self.given_was_executed = false
+          self.when_was_executed = false
+        end
+
+        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+          When  :calling_when
+          Given :calling_given
+        end
+
+        dsl = example_group.dsl do
+          def calling_when
+            self.class.when_was_executed = true
+          end
+          def calling_given
+            self.class.given_was_executed = true
+          end
+        end
+        example_group.run(@options)
+
+        example.should be_failed
+        example.exception.class.should == ScenarioStatementOrderError
+        example_group.when_was_executed.should be_true
+        example_group.given_was_executed.should be_false
+      end
     end
 
   end
