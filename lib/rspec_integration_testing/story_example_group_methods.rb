@@ -1,4 +1,6 @@
 module RspecIntegrationTesting
+
+  class ScenarioStatementOrderError < StandardError; end
   
   module StoryExampleGroupMethods
     def self.included(mod)
@@ -8,16 +10,23 @@ module RspecIntegrationTesting
 
         class << self
           def scenario_methods; [:Given, :When, :Then, :And] end
-          attr_accessor :strict
         end
-        self.strict = false
 
-        scenario_methods.each do |scenario_method|
+        [:Given, :When, :Then, :And].each do |scenario_method|
           method = <<-METHOD
-          def #{scenario_method}(statement, *args, &block)
+            def #{scenario_method}(statement, *args, &block)
+          METHOD
+          if scenario_method == :And
+            method += <<-METHOD
+              raise ScenarioStatementOrderError if @last_scenario_method_called.nil?
+            METHOD
+          end
+          method += <<-METHOD
             send statement, *args, &block
+            @last_scenario_method_called = #{scenario_method.inspect}
           end
           METHOD
+
           class_eval method, __FILE__, __LINE__
         end
 

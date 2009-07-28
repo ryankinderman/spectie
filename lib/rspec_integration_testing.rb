@@ -1,4 +1,5 @@
 require "rspec_integration_testing/story_example_group_methods"
+require "rspec_integration_testing/configuration"
 ###################################################################################
 # Preserve method_missing from rspec, which supports the general 
 # be_ and have_ predicate matchers. This method gets overridden for

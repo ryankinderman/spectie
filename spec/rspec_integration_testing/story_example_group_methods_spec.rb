@@ -224,6 +224,48 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
+    describe "enabling 'strict'" do
+      before :each do 
+        Spec::Runner.configuration.scenarios.strict = true
+      end
+      after :each do 
+        Spec::Runner.configuration.scenarios.strict = false
+      end
+    
+      it "prevents 'And' from being the first scenario method called" do
+        example_group = Class.new(StoryExampleGroup)
+        example_group.class_eval do
+          class << self
+            attr_accessor :given_was_executed
+            attr_accessor :and_was_executed
+          end
+          self.given_was_executed = false
+          self.and_was_executed = false
+        end
+
+        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+          And   :calling_and
+          Given :calling_given
+        end
+
+        dsl = example_group.dsl do
+          def calling_and
+            self.class.and_was_executed = true
+          end
+          def calling_given
+            self.class.given_was_executed = true
+          end
+        end
+        example_group.run(@options)
+
+        example.should be_failed
+        example.exception.class.should == ScenarioStatementOrderError
+        example_group.given_was_executed.should be_false
+        example_group.and_was_executed.should be_false
+      end
+
+    end
+
   end
 
 end
