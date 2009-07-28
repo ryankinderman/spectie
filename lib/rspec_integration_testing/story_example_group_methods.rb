@@ -1,9 +1,4 @@
 module RspecIntegrationTesting
-  class << self
-    def scenario_methods; [:Given, :When, :Then, :And] end
-    attr_accessor :strict
-  end
-  self.strict = false
   
   module StoryExampleGroupMethods
     def self.included(mod)
@@ -11,7 +6,13 @@ module RspecIntegrationTesting
         extend Spec::Example::ExampleGroupMethods
         include Spec::Example::ExampleMethods
 
-        RspecIntegrationTesting.scenario_methods.each do |scenario_method|
+        class << self
+          def scenario_methods; [:Given, :When, :Then, :And] end
+          attr_accessor :strict
+        end
+        self.strict = false
+
+        scenario_methods.each do |scenario_method|
           method = <<-METHOD
           def #{scenario_method}(statement, *args, &block)
             send statement, *args, &block
