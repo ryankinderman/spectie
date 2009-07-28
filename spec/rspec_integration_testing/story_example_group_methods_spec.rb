@@ -201,6 +201,29 @@ module RspecIntegrationTesting
       example_group.and_was_executed.should be_true
     end
 
+    it "shares state between the scenario and the scenario statements" do
+      example_group = Class.new(StoryExampleGroup)
+
+      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+        Given :the_example_has_state
+        @state.should == 1
+        @state = 2
+        Then  :the_state_is_shared
+      end
+
+      dsl = example_group.dsl do
+        def the_example_has_state
+          @state = 1
+        end
+        def the_state_is_shared
+          @state.should == 2
+        end
+      end
+      example_group.run(@options)
+
+      example.should_not be_failed
+    end
+
   end
 
 end
