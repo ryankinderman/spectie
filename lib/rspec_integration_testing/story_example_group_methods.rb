@@ -24,41 +24,14 @@ module RspecIntegrationTesting
 
         end
 
-        [:Given, :When, :Then].each do |scenario_statement_prefix|
+        [:Given, :When, :Then].each do |scenario_method|
           class_eval <<-METHOD
-          def #{scenario_statement_prefix}(dsl_method, *args, &block)
-            send dsl_method, *args, &block
+          def #{scenario_method}(statement, *args, &block)
+            send statement, *args, &block
           end
           METHOD
         end
       end
     end
   end
-#   class StoryExampleGroup < Spec::Example::ExampleGroup
-
-#     class << self
-
-#       def dsl(&implementation)
-#         class_eval &implementation
-#       end
-
-#       def scenario(description, options={}, backtrace=nil, &implementation)
-#         example(description, options, backtrace) do
-#           instance_eval &implementation
-#         end
-#       end
-
-#       def xscenario(description, options={}, &implementation)
-#         xexample description, options, &implementation
-#       end
-
-#     end
-
-#     [:Given, :When, :Then].each do |scenario_statement_prefix|
-#       define_method scenario_statement_prefix do |dsl_method, *args|
-#         send dsl_method, *args
-#       end
-#     end
-
-#   end
 end

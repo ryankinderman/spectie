@@ -43,8 +43,8 @@ module RspecIntegrationTesting
       example_ran_as_scenario.should be_true
     end
 
-    [:Given, :When, :Then].each do |scenario_statement_prefix|
-      it "can use #{scenario_statement_prefix} to call dsl methods from within the scenario" do
+    [:Given, :When, :Then].each do |scenario_method|
+      it "can use #{scenario_method} to call scenario statements from within the scenario" do
         example_group = Class.new(StoryExampleGroup) do
           class << self
             attr_accessor :scenario_statement_was_executed
@@ -52,7 +52,7 @@ module RspecIntegrationTesting
         end
 
         example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-          send scenario_statement_prefix, :i_am_executed
+          send scenario_method, :i_am_executed
         end
 
         dsl = example_group.dsl do
@@ -66,7 +66,7 @@ module RspecIntegrationTesting
       end
     end
 
-    it "has access to the dsl methods defined on a parent example group" do
+    it "has access to the scenario statements defined on a parent example group" do
       parent_example_group = Class.new(StoryExampleGroup) do
         class << self
           attr_accessor :scenario_statement_was_executed
@@ -87,7 +87,7 @@ module RspecIntegrationTesting
       example_group.scenario_statement_was_executed.should be_true
     end
 
-    it "can override the definition of a dsl method on a parent example group" do
+    it "can override the definition of a scenario statement on a parent example group" do
       parent_example_group = Class.new(StoryExampleGroup) do
         class << self
           attr_accessor :scenario_statement_was_executed
@@ -113,7 +113,7 @@ module RspecIntegrationTesting
       example_group.scenario_statement_was_executed.should == "child"
     end
 
-    it "can handle dsl statement nesting" do
+    it "supports scenario statement nesting" do
       example_group = Class.new(StoryExampleGroup)
       example_group.class_eval do
         class << self
@@ -140,7 +140,7 @@ module RspecIntegrationTesting
       example_group.nested_statement_was_executed.should be_true
     end
 
-    xit "handles dsl methods that start with 'should'" do
+    xit "handles scenario statements that start with 'should'" do
       # This example doesn't quite describe the issue. For some reason,
       # RSpec treates methods inside an example group that start with 
       # 'should' differently, and counts them as examples. Need to 
@@ -151,7 +151,7 @@ module RspecIntegrationTesting
           attr_accessor :called_the_method
         end
       end
-      example_group.scenario "As a tester, I want to start a dsl method with 'should'" do
+      example_group.scenario "As a tester, I want to start a scenario statement with 'should'" do
         Given :this_statement_calls_a_method_starting_with_should
       end
       example_group.dsl do 
@@ -170,7 +170,7 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
-    xit "cannot call a dsl method without Given" do
+    xit "cannot call a scenario statement without a scenario method" do
       example_group = Class.new(StoryExampleGroup)
       example_group.class_eval do
         class << self
@@ -190,7 +190,7 @@ module RspecIntegrationTesting
       example_group.run(@options)
 
       example.should be_failed
-      example.exception.should === NoMethodError
+      example.exception.should === NoScenarioMethodError
       example_group.given_was_executed.should be_false
     end
 
