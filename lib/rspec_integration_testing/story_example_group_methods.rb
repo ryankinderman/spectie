@@ -18,7 +18,7 @@ module RspecIntegrationTesting
           METHOD
           if scenario_method == :And
             method += <<-METHOD
-              raise ScenarioStatementOrderError if @last_scenario_method_called.nil?
+              raise ScenarioStatementOrderError, "Cannot start a scenario with 'And'" if @last_scenario_method_called.nil?
             METHOD
           end
           method += <<-METHOD
