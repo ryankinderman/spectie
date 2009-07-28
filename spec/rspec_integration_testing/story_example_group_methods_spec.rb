@@ -170,28 +170,35 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
-    xit "cannot call a scenario statement without a scenario method" do
+    it "can call 'And' as a scenario method" do
       example_group = Class.new(StoryExampleGroup)
       example_group.class_eval do
         class << self
           attr_accessor :given_was_executed
+          attr_accessor :and_was_executed
         end
+        self.given_was_executed = false
+        self.and_was_executed = false
       end
 
       example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-        i_am_executed
+        Given :given_was_executed
+        And   :and_was_executed
       end
 
       dsl = example_group.dsl do
-        def i_am_executed
+        def given_was_executed
           self.class.given_was_executed = true
+        end
+        def and_was_executed
+          self.class.and_was_executed = true
         end
       end
       example_group.run(@options)
 
-      example.should be_failed
-      example.exception.should === NoScenarioMethodError
-      example_group.given_was_executed.should be_false
+      example.should_not be_failed
+      example_group.given_was_executed.should be_true
+      example_group.and_was_executed.should be_true
     end
 
   end
