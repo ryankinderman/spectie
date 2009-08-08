@@ -201,68 +201,6 @@ module RspecIntegrationTesting
       example_group.and_was_executed.should be_true
     end
 
-    it "can call 'Given' after 'When' by default" do
-      example_group = Class.new(StoryExampleGroup)
-      example_group.class_eval do
-        class << self
-          attr_accessor :given_was_executed
-          attr_accessor :when_was_executed
-        end
-        self.given_was_executed = false
-        self.when_was_executed = false
-      end
-
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-        When  :when_was_executed
-        Given :given_was_executed
-      end
-
-      dsl = example_group.dsl do
-        def given_was_executed
-          self.class.given_was_executed = true
-        end
-        def when_was_executed
-          self.class.when_was_executed = true
-        end
-      end
-      example_group.run(@options)
-
-      example.should_not be_failed
-      example_group.given_was_executed.should be_true
-      example_group.when_was_executed.should be_true
-    end
-    
-    it "can call 'And' in any order by default" do
-      example_group = Class.new(StoryExampleGroup)
-      example_group.class_eval do
-        class << self
-          attr_accessor :given_was_executed
-          attr_accessor :and_was_executed
-        end
-        self.given_was_executed = false
-        self.and_was_executed = false
-      end
-
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-        And   :and_was_executed
-        Given :given_was_executed
-      end
-
-      dsl = example_group.dsl do
-        def given_was_executed
-          self.class.given_was_executed = true
-        end
-        def and_was_executed
-          self.class.and_was_executed = true
-        end
-      end
-      example_group.run(@options)
-
-      example.should_not be_failed
-      example_group.given_was_executed.should be_true
-      example_group.and_was_executed.should be_true
-    end
-    
     it "shares state between the scenario and the scenario statements" do
       example_group = Class.new(StoryExampleGroup)
 
@@ -286,79 +224,216 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
-    describe "enabling 'strict'" do
-      before :each do 
-        Spec::Runner.configuration.scenarios.strict = true
-      end
-      after :each do 
-        Spec::Runner.configuration.scenarios.strict = false
-      end
+    describe "'strict' mode" do
+      describe "when disabled" do
+        before :each do 
+          @original_strict = Spec::Runner.configuration.scenarios.strict
+          Spec::Runner.configuration.scenarios.strict = false
+        end
+        after :each do 
+          Spec::Runner.configuration.scenarios.strict = @original_strict
+        end
+
+        it "allows 'And' to be the first scenario method called" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :given_was_executed
+              attr_accessor :and_was_executed
+            end
+            self.given_was_executed = false
+            self.and_was_executed = false
+          end
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            And   :and_was_executed
+            Given :given_was_executed
+          end
+
+          dsl = example_group.dsl do
+            def given_was_executed
+              self.class.given_was_executed = true
+            end
+            def and_was_executed
+              self.class.and_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should_not be_failed
+          example_group.given_was_executed.should be_true
+          example_group.and_was_executed.should be_true
+        end
     
-      it "prevents 'And' from being the first scenario method called" do
-        example_group = Class.new(StoryExampleGroup)
-        example_group.class_eval do
-          class << self
-            attr_accessor :given_was_executed
-            attr_accessor :and_was_executed
+        it "allows 'Given' to be called after 'When'" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :given_was_executed
+              attr_accessor :when_was_executed
+            end
+            self.given_was_executed = false
+            self.when_was_executed = false
           end
-          self.given_was_executed = false
-          self.and_was_executed = false
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            When  :calling_when
+            Given :calling_given
+          end
+
+          dsl = example_group.dsl do
+            def calling_given
+              self.class.given_was_executed = true
+            end
+            def calling_when
+              self.class.when_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should_not be_failed
+          example_group.given_was_executed.should be_true
+          example_group.when_was_executed.should be_true
+        end
+        
+        it "allows 'When' to be called after 'Then'" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :when_was_executed
+              attr_accessor :then_was_executed
+            end
+            self.when_was_executed = false
+            self.then_was_executed = false
+          end
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            Then :calling_then
+            When :calling_when
+          end
+
+          dsl = example_group.dsl do
+            def calling_then
+              self.class.then_was_executed = true
+            end
+            def calling_when
+              self.class.when_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should_not be_failed
+          example_group.then_was_executed.should be_true
+          example_group.when_was_executed.should be_true
         end
 
-        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-          And   :calling_and
-          Given :calling_given
-        end
-
-        dsl = example_group.dsl do
-          def calling_and
-            self.class.and_was_executed = true
-          end
-          def calling_given
-            self.class.given_was_executed = true
-          end
-        end
-        example_group.run(@options)
-
-        example.should be_failed
-        example.exception.class.should == ScenarioStatementOrderError
-        example_group.given_was_executed.should be_false
-        example_group.and_was_executed.should be_false
       end
 
-      it "requires that 'Given' be called before 'When'" do
-        example_group = Class.new(StoryExampleGroup)
-        example_group.class_eval do
-          class << self
-            attr_accessor :given_was_executed
-            attr_accessor :when_was_executed
+      describe "when enabled" do
+        before :each do 
+          @original_strict = Spec::Runner.configuration.scenarios.strict 
+          Spec::Runner.configuration.scenarios.strict = true
+        end
+        after :each do 
+          Spec::Runner.configuration.scenarios.strict = @original_strict
+        end
+      
+        it "prevents 'And' from being the first scenario method called" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :given_was_executed
+              attr_accessor :and_was_executed
+            end
+            self.given_was_executed = false
+            self.and_was_executed = false
           end
-          self.given_was_executed = false
-          self.when_was_executed = false
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            And   :calling_and
+            Given :calling_given
+          end
+
+          dsl = example_group.dsl do
+            def calling_and
+              self.class.and_was_executed = true
+            end
+            def calling_given
+              self.class.given_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should be_failed
+          example.exception.class.should == ScenarioStatementOrderError
+          example_group.given_was_executed.should be_false
+          example_group.and_was_executed.should be_false
         end
 
-        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
-          When  :calling_when
-          Given :calling_given
+        it "prevents 'Given' from being called after 'When'" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :given_was_executed
+              attr_accessor :when_was_executed
+            end
+            self.given_was_executed = false
+            self.when_was_executed = false
+          end
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            When  :calling_when
+            Given :calling_given
+          end
+
+          dsl = example_group.dsl do
+            def calling_when
+              self.class.when_was_executed = true
+            end
+            def calling_given
+              self.class.given_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should be_failed
+          example.exception.class.should == ScenarioStatementOrderError
+          example_group.when_was_executed.should be_true
+          example_group.given_was_executed.should be_false
         end
 
-        dsl = example_group.dsl do
-          def calling_when
-            self.class.when_was_executed = true
+        it "prevents 'When' from being called after 'Then'" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :when_was_executed
+              attr_accessor :then_was_executed
+            end
+            self.when_was_executed = false
+            self.then_was_executed = false
           end
-          def calling_given
-            self.class.given_was_executed = true
-          end
-        end
-        example_group.run(@options)
 
-        example.should be_failed
-        example.exception.class.should == ScenarioStatementOrderError
-        example_group.when_was_executed.should be_true
-        example_group.given_was_executed.should be_false
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            Then :calling_then
+            When :calling_when
+          end
+
+          dsl = example_group.dsl do
+            def calling_then
+              self.class.then_was_executed = true
+            end
+            def calling_when
+              self.class.when_was_executed = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should be_failed
+          example.exception.class.should == ScenarioStatementOrderError
+          example_group.then_was_executed.should be_true
+          example_group.when_was_executed.should be_false
+        end
       end
     end
-
   end
-
 end
