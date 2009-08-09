@@ -13,10 +13,6 @@ module RspecIntegrationTesting
   end
 
   class Configuration
-    attr_accessor :strict
-    def initialize
-      self.strict = false
-    end
   end
 
 end
