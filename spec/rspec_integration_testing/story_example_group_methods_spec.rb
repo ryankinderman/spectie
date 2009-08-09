@@ -193,5 +193,25 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
+    it "can invoke any method defined in the example group as a scenario statement" do
+      example_group = Class.new(StoryExampleGroup)
+      example_group.class_eval do
+        class << self
+          attr_accessor :normal_method_executed
+        end
+        def a_normal_method_defined_in_the_example_group
+          self.class.normal_method_executed = true
+        end
+      end
+
+      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+        Given :a_normal_method_defined_in_the_example_group
+      end
+
+      example_group.run(@options)
+
+      example.should_not be_failed
+      example_group.normal_method_executed.should be_true
+    end
   end
 end
