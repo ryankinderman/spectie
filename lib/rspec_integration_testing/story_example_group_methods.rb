@@ -1,6 +1,8 @@
 module RspecIntegrationTesting
 
-  class ScenarioStatementOrderError < StandardError; end
+  class ScenarioStatementError < StandardError; end
+  class ScenarioStatementOrderError < ScenarioStatementError; end
+  class ScenarioStatementExecutionError < ScenarioStatementError; end
   
   module StoryExampleGroupMethods
     def self.included(mod)

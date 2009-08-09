@@ -327,6 +327,29 @@ module RspecIntegrationTesting
           example_group.when_was_executed.should be_true
         end
 
+        it "allows scenario statements to be called directly" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :scenario_method_called
+            end
+            self.scenario_method_called = false
+          end
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            some_scenario_method
+          end
+
+          dsl = example_group.dsl do
+            def some_scenario_method
+              self.class.scenario_method_called = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should_not be_failed
+          example_group.scenario_method_called.should be_true
+        end
       end
 
       describe "when enabled" do
@@ -432,6 +455,31 @@ module RspecIntegrationTesting
           example.exception.class.should == ScenarioStatementOrderError
           example_group.then_was_executed.should be_true
           example_group.when_was_executed.should be_false
+        end
+
+        xit "prevents scenario statements from being called directly" do
+          example_group = Class.new(StoryExampleGroup)
+          example_group.class_eval do
+            class << self
+              attr_accessor :scenario_method_called
+            end
+            self.scenario_method_called = false
+          end
+
+          example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+            some_scenario_method
+          end
+
+          dsl = example_group.dsl do
+            def some_scenario_method
+              self.class.scenario_method_called = true
+            end
+          end
+          example_group.run(@options)
+
+          example.should be_failed
+          example.exception.class.should == ScenarioStatementExecutionError
+          example_group.scenario_method_called.should be_false
         end
       end
     end
