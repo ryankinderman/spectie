@@ -1,4 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../rails_env")
+require "rspec_integration_testing/rails_story_example_group"
 
 class TestsController < ApplicationController
   def index; render :text => "<p>Hello there!</p>" end
@@ -20,7 +22,7 @@ module RspecIntegrationTesting
         Then  :i_can_assert_the_response
       end
       
-      example_group.dsl do
+      example_group.class_eval do
         def i_want_to_write_an_integration_test_for_rails; end
         
         def i_make_a_controller_request
