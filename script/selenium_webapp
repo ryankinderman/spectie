@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require File.expand_path(File.dirname(__FILE__) + "/../initialize")
+
+begin
+  sinatra_path = 'sinatra'
+  require sinatra_path
+rescue LoadError => e
+  if e.message =~ /#{Regexp.escape(sinatra_path)}$/
+    raise "sinatra not available. Install it with sudo gem install sinatra"
+  else
+    raise e
+  end
+end
+
+get '/' do
+  "Whazzup!?"
+end
