@@ -6,11 +6,3 @@ rdoc
 pkg
 vendor/*
 !vendor/.gitignore
-
-# Rails app ignores
-spec/rails_app/log/*
-!spec/rails_app/log/.gitignore
-spec/rails_app/db/*.sqlite3
-!spec/rails_app/db/.gitignore
-spec/rails_app/vendor/*
-!spec/rails_app/vendor/.gitignore

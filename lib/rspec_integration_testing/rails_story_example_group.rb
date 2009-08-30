@@ -19,9 +19,14 @@ ActionController::IntegrationTest.class_eval do
 end
 ###################################################################################
 begin
-  require "spec/rails"
-rescue LoadError
-  raise "RSpec-Rails not available. Install it with sudo gem install rspec-rails"
+  spec_rails_path = "spec/rails"
+  require spec_rails_path
+rescue LoadError => e
+  if e.message =~ /#{Regexp.escape(spec_rails_path)}$/
+    raise "RSpec-Rails not available. Install it with sudo gem install rspec-rails"
+  else
+    raise e
+  end
 end
 
 class ActionController::IntegrationTest
