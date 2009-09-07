@@ -82,6 +82,32 @@ module RspecIntegrationTesting
       example.should_not be_failed
     end
 
+    it "deletes all cookies between each example" do
+      example_group = Class.new(SeleniumStoryExampleGroup)
+      example_group.scenario "I do something that creates cookies" do
+        Given :i_create_a_bunch_of_cookies
+      end
+      example_group.scenario "I have no cookies :(" do
+        Then  :i_have_no_cookies
+      end
+
+      example_group.class_eval do
+        def i_create_a_bunch_of_cookies
+          create_cookie "a=1"
+          create_cookie "b=2"
+          cookies.should == 'a=1; b=2'
+        end
+        def i_have_no_cookies
+          cookies.should == ""
+        end
+      end
+
+      example_group.run(@options)
+
+      report_on_failed_example
+      example.should_not be_failed
+    end
+
     def report_on_failed_example
       if example.failed?
         p example.exception
