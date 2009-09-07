@@ -12,11 +12,33 @@ rescue LoadError => e
   end
 end
 
+set :sessions, true
+
 get '/' do
-  <<-MARKUP
-Whazzup!?
-<a href="/clicky_click">Click me</a>
+  markup = <<-MARKUP
+<p id="greeting">
+  Whazzup!?
+  <a href="/clicky_click">Click me</a>
+</p>
   MARKUP
+  if session['user'].nil?
+    markup << <<-MARKUP
+<form method="post" action="/login">
+  <input type="text" id="login" name="login" />
+  <input type="submit" id="submit_login" />
+</form>
+    MARKUP
+  else
+    markup << <<-MARKUP
+<p id="session">Hello, #{session['user']}</p>
+    MARKUP
+  end
+
+  markup
+end
+post '/login' do
+  session['user'] = params['login']
+  redirect '/'
 end
 get '/clicky_click' do
   "Booyah!"

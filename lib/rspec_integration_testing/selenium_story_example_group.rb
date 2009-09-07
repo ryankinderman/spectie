@@ -14,7 +14,7 @@ module RspecIntegrationTesting
     include StoryExampleGroupMethods
     include Selenium::Client::SeleniumHelper
 
-    before :each do
+    before :all do
       # TODO: make this configurable
       @selenium = Selenium::Client::Driver.new(
         :host => "10.211.55.127",
@@ -22,7 +22,16 @@ module RspecIntegrationTesting
         :browser => "*firefox",
         :timeout_in_seconds => 10,
         :url => "http://10.211.55.1:4567")
-      @selenium.start_new_browser_session
+      @selenium.start
+    end
+
+    after :all do
+      @selenium.stop
+    end
+
+    before :each do
+      @selenium.open("/")
+      @selenium.delete_all_visible_cookies
     end
   end
 end
