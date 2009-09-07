@@ -30,6 +30,8 @@ module RspecIntegrationTesting
     end
 
     before :each do
+      # initialize browser for next session without needing to restart browser
+      # TODO: make this an option
       @selenium.open("/")
       @selenium.delete_all_visible_cookies
     end
