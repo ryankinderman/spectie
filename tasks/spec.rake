@@ -20,6 +20,7 @@ namespace :spec do
     spec.spec_files = ['spec/rspec_integration_testing/selenium_story_example_group_spec.rb']
   end
 
+  task :all => ["default", "spec:selenium"]
 #  Spec::Rake::SpecTask.new(:rcov) do |spec|
 #  #    spec.libs << 'lib'
 #    spec.pattern = 'spec/**/*_spec.rb'
@@ -27,4 +28,4 @@ namespace :spec do
 #  end
 end
 
-task :default => ["spec:core", "spec:rails", "spec:selenium"]
+task :default => ["spec:core", "spec:rails"]

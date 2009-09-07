@@ -17,11 +17,11 @@ module RspecIntegrationTesting
     before :each do
       # TODO: make this configurable
       @selenium = Selenium::Client::Driver.new(
-        :host => "localhost",
+        :host => "10.211.55.127",
         :port => 4444,
         :browser => "*firefox",
         :timeout_in_seconds => 10,
-        :url => "http://localhost:4567")
+        :url => "http://10.211.55.1:4567")
       @selenium.start_new_browser_session
     end
   end

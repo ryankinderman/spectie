@@ -13,5 +13,11 @@ rescue LoadError => e
 end
 
 get '/' do
-  "Whazzup!?"
+  <<-MARKUP
+Whazzup!?
+<a href="/clicky_click">Click me</a>
+  MARKUP
+end
+get '/clicky_click' do
+  "Booyah!"
 end
