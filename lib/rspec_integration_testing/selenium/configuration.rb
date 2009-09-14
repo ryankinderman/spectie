@@ -1,16 +1,10 @@
 module RspecIntegrationTesting
   module Configuration
     class Selenium
-      attr_accessor :driver_options
+      attr_writer :driver_options
 
-      def initialize
-        self.driver_options = {
-          :host => "10.211.55.127",
-          :port => 4444,
-          :browser => "*firefox",
-          :timeout_in_seconds => 10,
-          :url => "http://10.211.55.1:4567"
-        }
+      def driver_options
+        @driver_options || raise("No Selenium driver options specified")
       end
     end
 

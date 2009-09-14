@@ -1,8 +1,9 @@
 *.sw?
 .DS_Store
-tags
 coverage
-rdoc
 pkg
+rdoc
+spec/selenium_config.rb
+tags
 vendor/*
 !vendor/.gitignore

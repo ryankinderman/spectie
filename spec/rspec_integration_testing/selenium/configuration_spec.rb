@@ -14,6 +14,11 @@ module RspecIntegrationTesting
         config.driver_options = "blah"
         config.driver_options.should == "blah"
       end
+
+      it "raises an error if driver options are not set before they're accessed" do
+        config = Selenium.new
+        lambda { config.driver_options }.should raise_error
+      end
     end
   end
 end
