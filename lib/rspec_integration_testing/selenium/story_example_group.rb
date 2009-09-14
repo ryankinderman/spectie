@@ -16,12 +16,7 @@ module RspecIntegrationTesting
 
     before :all do
       # TODO: make this configurable
-      @selenium = Selenium::Client::Driver.new(
-        :host => "10.211.55.127",
-        :port => 4444,
-        :browser => "*firefox",
-        :timeout_in_seconds => 10,
-        :url => "http://10.211.55.1:4567")
+      @selenium = Selenium::Client::Driver.new(Spec::Runner.configuration.selenium.driver_options)
       @selenium.start
     end
 

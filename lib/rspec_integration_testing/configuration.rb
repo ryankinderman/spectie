@@ -1,18 +1,10 @@
 module RspecIntegrationTesting
-
-  module ConfigurationForScenarios
-    def self.included(mod)
-      mod.class_eval do
-        def scenarios
-          @scenarios ||= Configuration.new
-        end
-      end
+  module Configuration
+    class ForScenarios
     end
-
-    Spec::Runner::Configuration.send :include, self
+    def scenarios
+      ForScenarios.new
+    end
   end
-
-  class Configuration
-  end
-
+  ::Spec::Runner::Configuration.send :include, Configuration
 end

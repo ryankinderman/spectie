@@ -17,10 +17,13 @@ namespace :spec do
 
   Spec::Rake::SpecTask.new(:selenium) do |spec|
   #    spec.libs << 'lib'
-    spec.spec_files = ['spec/rspec_integration_testing/selenium_story_example_group_spec.rb']
+    spec.spec_files = ['spec/rspec_integration_testing/selenium/**/*_spec.rb']
   end
 
-  task :all => ["default", "spec:selenium"]
+  Spec::Rake::SpecTask.new(:all) do |spec|
+    spec.spec_files = ["spec/**/*_spec.rb"]
+  end
+
 #  Spec::Rake::SpecTask.new(:rcov) do |spec|
 #  #    spec.libs << 'lib'
 #    spec.pattern = 'spec/**/*_spec.rb'

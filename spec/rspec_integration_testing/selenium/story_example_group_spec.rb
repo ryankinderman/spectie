@@ -1,6 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
-require File.expand_path(File.dirname(__FILE__) + "/../selenium_helper")
-require "rspec_integration_testing/selenium_story_example_group"
+require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../../selenium_helper")
 
 module RspecIntegrationTesting
   describe "Selenium Stories" do
