@@ -31,7 +31,10 @@ class HaveFailed
   end
 
   def failure_message_for_should_not
-    "expected example not to fail, but it did with:\n  Message: #{@example.exception.message}\n  Backtrace:\n  #{@example.exception.backtrace.join("\n  ")}"
+    "expected example not to fail, but it did with:\n" +
+    "  Message: #{@example.exception.message}\n" +
+    "  Backtrace:\n" +
+    "    #{@example.exception.backtrace.join("\n    ")}"
   end
 end
 
