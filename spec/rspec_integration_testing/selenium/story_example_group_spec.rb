@@ -105,12 +105,5 @@ module RspecIntegrationTesting
 
       example.should_not have_failed
     end
-
-    def report_on_failed_example
-      if example.failed?
-        p example.exception
-        puts example.exception.backtrace.join("\n")
-      end
-    end
   end
 end

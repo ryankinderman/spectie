@@ -1,8 +1,10 @@
 module RspecIntegrationTesting
   module Configuration
     class Selenium
-      def driver_options
-        {
+      attr_accessor :driver_options
+
+      def initialize
+        self.driver_options = {
           :host => "10.211.55.127",
           :port => 4444,
           :browser => "*firefox",
@@ -13,7 +15,7 @@ module RspecIntegrationTesting
     end
 
     def selenium
-      Selenium.new
+      @selenium ||= Selenium.new
     end
   end
   ::Spec::Runner.send :include, Configuration
