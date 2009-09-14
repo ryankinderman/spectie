@@ -31,7 +31,7 @@ module RspecIntegrationTesting
 
       example_group.run(@options)
 
-      example.should_not be_failed
+      example.should_not have_failed
     end
 
     it "supports a session for each example in a group" do
@@ -79,7 +79,7 @@ module RspecIntegrationTesting
 
       example_group.run(@options)
 
-      example.should_not be_failed
+      example.should_not have_failed
     end
 
     it "deletes all cookies between each example" do
@@ -104,8 +104,7 @@ module RspecIntegrationTesting
 
       example_group.run(@options)
 
-      report_on_failed_example
-      example.should_not be_failed
+      example.should_not have_failed
     end
 
     def report_on_failed_example

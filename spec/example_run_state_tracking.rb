@@ -20,22 +20,43 @@ class ExampleState
   end
 end
 
-def track_example_run_state
-  before(:each) do
-    @original_rspec_options = ::Spec::Runner.options
-    @options = ::Spec::Runner::Options.new(StringIO.new, @error_stream = StringIO.new)
-    @example_state = ExampleState.new
-    @formatter = TestingFormatter.new(@options, @error_stream, @example_state)
-    class << self
-      def example
-        @example_state
-      end
-    end
-    @options.formatters << @formatter
-    ::Spec::Runner.use(@options)
+class HaveFailed
+  def matches?(example)
+    @example = example
+    example.failed?
   end
 
-  after(:each) do
-    ::Spec::Runner.use(@original_rspec_options)
+  def description
+    "have failed"
+  end
+
+  def failure_message_for_should_not
+    "expected example not to fail, but it did with:\n  Message: #{@example.exception.message}\n  Backtrace:\n  #{@example.exception.backtrace.join("\n  ")}"
   end
 end
+
+Spec::Example::ExampleGroupMethods.module_eval do
+  def track_example_run_state
+    before(:each) do
+      @original_rspec_options = ::Spec::Runner.options
+      @options = ::Spec::Runner::Options.new(StringIO.new, @error_stream = StringIO.new)
+      @example_state = ExampleState.new
+      @formatter = TestingFormatter.new(@options, @error_stream, @example_state)
+      class << self
+        def example
+          @example_state
+        end
+        def have_failed
+          HaveFailed.new
+        end
+      end
+      @options.formatters << @formatter
+      ::Spec::Runner.use(@options)
+    end
+
+    after(:each) do
+      ::Spec::Runner.use(@original_rspec_options)
+    end
+  end
+end
+
