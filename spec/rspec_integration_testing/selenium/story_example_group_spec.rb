@@ -27,7 +27,7 @@ module RspecIntegrationTesting
         end
       end
 
-      example_group.run(@options)
+      with_selenium_control { @options.run_examples }
 
       example.should_not have_failed
     end
@@ -75,7 +75,7 @@ module RspecIntegrationTesting
         end
       end
 
-      example_group.run(@options)
+      with_selenium_control { @options.run_examples }
 
       example.should_not have_failed
     end
@@ -100,7 +100,7 @@ module RspecIntegrationTesting
         end
       end
 
-      example_group.run(@options)
+      with_selenium_control { @options.run_examples }
 
       example.should_not have_failed
     end

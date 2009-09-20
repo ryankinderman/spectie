@@ -18,6 +18,74 @@ module RspecIntegrationTesting
         config = Selenium.new
         lambda { config.driver_options }.should raise_error
       end
+
+      describe "affect on example group runs" do
+        track_example_run_state
+
+        it "only starts the driver once for multiple example groups if browser reset instead of restart is enabled" do
+          @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
+          begin
+            start_call_count = 0
+            ::Selenium::Client::Driver.stubs(:new).
+              returns(mock_driver = stub_everything("mock selenium driver"))
+            mock_driver.stubs(:start).with { start_call_count += 1; true }
+              
+            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = true
+
+            example_group1 = Class.new(SeleniumStoryExampleGroup)
+            example_group1.class_eval do
+              def teardown_mocks_for_rspec
+                # do nothing so that the mock persists through to the second example group
+              end
+            end
+            example_group1.scenario "The selenium driver is started once" do
+              start_call_count.should == 1
+            end
+            example_group2 = Class.new(SeleniumStoryExampleGroup)
+            example_group2.scenario "The selenium driver is still started once" do
+              start_call_count.should == 1
+            end
+
+            with_selenium_control { @options.run_examples }
+            example.should_not have_failed
+          ensure
+            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+          end
+        end
+
+        it "starts the driver for each example if browser reset instead of restart is disabled" do
+          @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
+          begin
+            start_call_count = 0
+            ::Selenium::Client::Driver.stubs(:new).
+              returns(mock_driver = stub_everything("mock selenium driver"))
+            mock_driver.stubs(:start).with { start_call_count += 1; true }
+
+            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = false
+
+            example_group1 = Class.new(SeleniumStoryExampleGroup)
+            example_group1.class_eval do
+              def teardown_mocks_for_rspec
+                # do nothing so that the mock persists through to the second example group
+              end
+            end
+            example_group1.scenario "The selenium driver is started once" do
+              start_call_count.should == 1
+            end
+            example_group2 = Class.new(SeleniumStoryExampleGroup)
+            example_group2.scenario "The selenium driver is started twice" do
+              start_call_count.should == 2
+            end
+            
+            with_selenium_control { @options.run_examples }
+            example.should_not have_failed
+          ensure
+            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+          end
+        end
+
+      end
+
     end
   end
 end

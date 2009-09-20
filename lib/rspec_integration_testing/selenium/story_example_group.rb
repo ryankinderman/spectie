@@ -14,21 +14,36 @@ module RspecIntegrationTesting
     include StoryExampleGroupMethods
     include Selenium::Client::SeleniumHelper
 
-    before :all do
-      # TODO: make this configurable
-      @selenium = Selenium::Client::Driver.new(Spec::Runner.configuration.selenium.driver_options)
-      @selenium.start
+    selenium = nil
+    selenium_config = Spec::Runner.configuration.selenium
+
+    before :suite do
+      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+        selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
+        selenium.start
+      end
     end
 
-    after :all do
-      @selenium.stop
+    after :suite do
+      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+        selenium.stop
+      end
     end
 
     before :each do
-      # initialize browser for next session without needing to restart browser
-      # TODO: make this an option
-      @selenium.open("/")
-      @selenium.delete_all_visible_cookies
+      @selenium = selenium
+      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+        selenium.open("/")
+        selenium.delete_all_visible_cookies
+      else
+        selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
+        selenium.start
+      end
+    end
+    after :each do
+      unless selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+        selenium.stop
+      end
     end
   end
 end
