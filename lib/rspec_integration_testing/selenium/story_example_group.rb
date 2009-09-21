@@ -31,18 +31,20 @@ module RspecIntegrationTesting
     end
 
     before :each do
-      @selenium = selenium
-      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
-        selenium.open("/")
-        selenium.delete_all_visible_cookies
-      else
+      if selenium_config.controlled? and !selenium_config.browser_reset_instead_of_restart
         selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
         selenium.start
       end
+      @selenium = selenium
     end
+
     after :each do
-      unless selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
-        selenium.stop
+      if selenium_config.controlled?
+        if selenium_config.browser_reset_instead_of_restart
+          selenium.delete_all_visible_cookies
+        else
+          selenium.stop
+        end
       end
     end
   end
