@@ -2,10 +2,10 @@ module RspecIntegrationTesting
   module Configuration
     class Selenium
       attr_writer :driver_options
-      attr_accessor :browser_reset_instead_of_restart, :controlled
+      attr_accessor :start_browser_once, :controlled
 
       def initialize
-        self.browser_reset_instead_of_restart = true
+        self.start_browser_once = true
         self.controlled = true
       end
 

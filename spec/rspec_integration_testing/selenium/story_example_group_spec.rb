@@ -110,22 +110,22 @@ module RspecIntegrationTesting
     describe "browser restart before each example" do
       it_should_behave_like "the browser is in a consistent state for each example"
       before :each do
-        @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
-        Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = false
+        @original_value = Spec::Runner.configuration.selenium.start_browser_once
+        Spec::Runner.configuration.selenium.start_browser_once = false
       end
       after :each do
-        Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+        Spec::Runner.configuration.selenium.start_browser_once = @original_value
       end
     end
 
     describe "browser reset instead of restart before each example" do
       it_should_behave_like "the browser is in a consistent state for each example"
       before :each do
-        @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
-        Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = true
+        @original_value = Spec::Runner.configuration.selenium.start_browser_once
+        Spec::Runner.configuration.selenium.start_browser_once = true
       end
       after :each do
-        Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+        Spec::Runner.configuration.selenium.start_browser_once = @original_value
       end
     end
   end

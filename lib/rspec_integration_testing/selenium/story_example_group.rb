@@ -18,20 +18,20 @@ module RspecIntegrationTesting
     selenium_config = Spec::Runner.configuration.selenium
 
     before :suite do
-      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+      if selenium_config.controlled? and selenium_config.start_browser_once
         selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
         selenium.start
       end
     end
 
     after :suite do
-      if selenium_config.controlled? and selenium_config.browser_reset_instead_of_restart
+      if selenium_config.controlled? and selenium_config.start_browser_once
         selenium.stop
       end
     end
 
     before :each do
-      if selenium_config.controlled? and !selenium_config.browser_reset_instead_of_restart
+      if selenium_config.controlled? and !selenium_config.start_browser_once
         selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
         selenium.start
       end
@@ -40,7 +40,7 @@ module RspecIntegrationTesting
 
     after :each do
       if selenium_config.controlled?
-        if selenium_config.browser_reset_instead_of_restart
+        if selenium_config.start_browser_once
           selenium.delete_all_visible_cookies
         else
           selenium.stop

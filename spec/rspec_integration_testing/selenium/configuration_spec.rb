@@ -23,14 +23,14 @@ module RspecIntegrationTesting
         track_example_run_state
 
         it "only starts the driver once for multiple example groups if browser reset instead of restart is enabled" do
-          @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
+          @original_value = Spec::Runner.configuration.selenium.start_browser_once
           begin
             start_call_count = 0
             ::Selenium::Client::Driver.stubs(:new).
               returns(mock_driver = stub_everything("mock selenium driver"))
             mock_driver.stubs(:start).with { start_call_count += 1; true }
               
-            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = true
+            Spec::Runner.configuration.selenium.start_browser_once = true
 
             example_group1 = Class.new(SeleniumStoryExampleGroup)
             example_group1.class_eval do
@@ -49,19 +49,19 @@ module RspecIntegrationTesting
             with_selenium_control { @options.run_examples }
             example.should_not have_failed
           ensure
-            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+            Spec::Runner.configuration.selenium.start_browser_once = @original_value
           end
         end
 
         it "starts the driver for each example if browser reset instead of restart is disabled" do
-          @original_value = Spec::Runner.configuration.selenium.browser_reset_instead_of_restart
+          @original_value = Spec::Runner.configuration.selenium.start_browser_once
           begin
             start_call_count = 0
             ::Selenium::Client::Driver.stubs(:new).
               returns(mock_driver = stub_everything("mock selenium driver"))
             mock_driver.stubs(:start).with { start_call_count += 1; true }
 
-            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = false
+            Spec::Runner.configuration.selenium.start_browser_once = false
 
             example_group1 = Class.new(SeleniumStoryExampleGroup)
             example_group1.class_eval do
@@ -80,7 +80,7 @@ module RspecIntegrationTesting
             with_selenium_control { @options.run_examples }
             example.should_not have_failed
           ensure
-            Spec::Runner.configuration.selenium.browser_reset_instead_of_restart = @original_value
+            Spec::Runner.configuration.selenium.start_browser_once = @original_value
           end
         end
 
