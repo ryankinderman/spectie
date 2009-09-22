@@ -6,23 +6,18 @@ end
 
 namespace :spec do
   Spec::Rake::SpecTask.new(:core) do |spec|
-  #    spec.libs << 'lib'
-    spec.spec_files = ['spec/rspec_integration_testing_spec.rb', 'spec/rspec_integration_testing/story_example_group_methods_spec.rb']
+    spec.spec_files = ['spec/spectie_spec.rb', 'spec/spectie/story_example_group_methods_spec.rb']
   end
 
   Spec::Rake::SpecTask.new(:rails) do |spec|
-  #    spec.libs << 'lib'
-    spec.spec_files = ['spec/rspec_integration_testing/rails_story_example_group_spec.rb']
+    spec.spec_files = ['spec/spectie/rails_story_example_group_spec.rb']
   end
 
   Spec::Rake::SpecTask.new(:selenium) do |spec|
-  #    spec.libs << 'lib'
-    spec.spec_files = ['spec/rspec_integration_testing/selenium/**/*_spec.rb']
+    spec.spec_files = ['spec/spectie/selenium/**/*_spec.rb']
   end
 
-  Spec::Rake::SpecTask.new(:all) do |spec|
-    spec.spec_files = ["spec/**/*_spec.rb"]
-  end
+  task :all => [:core, :rails, :selenium]
 
 #  Spec::Rake::SpecTask.new(:rcov) do |spec|
 #  #    spec.libs << 'lib'

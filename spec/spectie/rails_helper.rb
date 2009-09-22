@@ -11,3 +11,19 @@ require "initializer"
 require "action_controller"
 
 ActionController::Base.session = {:key => "_myapp_session", :secret => "a"*30}
+
+require "spectie/rails_story_example_group"
+
+module HelperToTestRailsIntegration
+  def method_missing(method, *args, &block)
+    if method.to_sym == :i_dont_exist_in_the_integration_session
+      # handled here
+    else
+      super
+    end
+  end
+end
+
+Spec::Runner.configure do |config|
+  config.include HelperToTestRailsIntegration
+end

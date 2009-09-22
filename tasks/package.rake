@@ -1,12 +1,12 @@
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "rspec_integration_testing"
+    gem.name = "spectie"
     gem.summary = %Q{TODO}
     gem.email = "ryan@kinderman.net"
-    gem.homepage = "http://github.com/ryankinderman/rspec_integration_testing"
+    gem.homepage = "http://github.com/ryankinderman/spectie"
     gem.authors = ["Ryan Kinderman"]
-    gem.rubyforge_project = "rspec_integration_testing"
+    gem.rubyforge_project = "spectie"
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

@@ -41,12 +41,14 @@ module Spectie
   class RailsStoryExampleGroup < ActionController::IntegrationTest
     include StoryExampleGroupMethods
 
-#     def reset!
-#       session = super
-# #      ActionMailer::Base.deliveries.clear
-#       session.remote_addr = '208.77.188.166' # example.com
-#       session
-#     end
+    # The following line ensures that RailsStoryExampleGroup is, by 
+    # default, the lowest point in the example group hierarchy that 
+    # helper modules will be included.
+    #
+    # If that doesn't make sense, just comment this line
+    # out and observe the failing test.
+    Spec::Example::ExampleGroupFactory.default(self)
   end
 
 end
+

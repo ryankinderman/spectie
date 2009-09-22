@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + "/rails_helper")
-require "spectie/rails_story_example_group"
 
 class TestsController < ApplicationController
   def index; render :text => "<p>Hello there!</p>" end
@@ -12,6 +11,18 @@ module Spectie
   describe "Rails Stories" do
 
     track_example_run_state
+
+    it "can include a helper module that defines method_missing" do
+      (example_group = Class.new(RailsStoryExampleGroup)).class_eval do
+        scenario "I'm going to call a method that doesn't exist in the integration session" do
+          i_dont_exist_in_the_integration_session
+        end
+      end
+
+      @options.run_examples
+
+      example.should_not have_failed
+    end
 
     it "can make a controller request and inspect the response" do
       example_group = Class.new(RailsStoryExampleGroup)
