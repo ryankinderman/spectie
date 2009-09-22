@@ -12,6 +12,11 @@ module Spectie
 
     track_example_run_state
 
+    it "is registered by default for the 'integration' behavior type" do
+      created_example_group = Spec::Example::ExampleGroupFactory.create_example_group(:type => :integration) {}
+      created_example_group.superclass.should == RailsStoryExampleGroup
+    end
+
     it "can include a helper module that defines method_missing" do
       (example_group = Class.new(RailsStoryExampleGroup)).class_eval do
         scenario "I'm going to call a method that doesn't exist in the integration session" do

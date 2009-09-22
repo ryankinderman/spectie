@@ -48,6 +48,7 @@ module Spectie
     # If that doesn't make sense, just comment this line
     # out and observe the failing test.
     Spec::Example::ExampleGroupFactory.default(self)
+    Spec::Example::ExampleGroupFactory.register(:integration, self)
   end
 
 end
