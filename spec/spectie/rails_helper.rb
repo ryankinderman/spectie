@@ -12,7 +12,7 @@ require "action_controller"
 
 ActionController::Base.session = {:key => "_myapp_session", :secret => "a"*30}
 
-require "spectie/rails_story_example_group"
+require "spectie/rails"
 
 module HelperToTestRailsIntegration
   def method_missing(method, *args, &block)
