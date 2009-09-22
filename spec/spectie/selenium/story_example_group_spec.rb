@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
-module RspecIntegrationTesting
+module Spectie
   describe "Selenium Stories" do
 
     track_example_run_state

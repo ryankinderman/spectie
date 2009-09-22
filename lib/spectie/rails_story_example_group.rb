@@ -36,7 +36,7 @@ class ActionController::IntegrationTest
   end
 end
 
-module RspecIntegrationTesting
+module Spectie
 
   class RailsStoryExampleGroup < ActionController::IntegrationTest
     include StoryExampleGroupMethods

@@ -1,2 +1,0 @@
-require "rspec_integration_testing/story_example_group_methods"
-require "rspec_integration_testing/configuration"

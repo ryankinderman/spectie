@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
-module RspecIntegrationTesting
+module Spectie
   module Configuration
     describe Selenium do
       it "creates a configuration the first time it's accessed" do

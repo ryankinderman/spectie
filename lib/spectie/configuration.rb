@@ -1,4 +1,4 @@
-module RspecIntegrationTesting
+module Spectie
   module Configuration
     class ForScenarios
     end

@@ -1,4 +1,4 @@
-module RspecIntegrationTesting
+module Spectie
   module Configuration
     class Selenium
       attr_writer :driver_options

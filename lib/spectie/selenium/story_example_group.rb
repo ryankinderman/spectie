@@ -9,7 +9,7 @@ rescue LoadError => e
   end
 end
 
-module RspecIntegrationTesting
+module Spectie
   class SeleniumStoryExampleGroup
     include StoryExampleGroupMethods
     include Selenium::Client::SeleniumHelper

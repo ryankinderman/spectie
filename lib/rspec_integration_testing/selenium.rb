@@ -1,2 +1,0 @@
-require "rspec_integration_testing/selenium/configuration"
-require "rspec_integration_testing/selenium/story_example_group"

@@ -1,4 +1,4 @@
-module RspecIntegrationTesting
+module Spectie
 
   module StoryExampleGroupMethods
     def self.included(mod)

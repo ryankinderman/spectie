@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + "/rails_helper")
-require "rspec_integration_testing/rails_story_example_group"
+require "spectie/rails_story_example_group"
 
 class TestsController < ApplicationController
   def index; render :text => "<p>Hello there!</p>" end
@@ -8,7 +8,7 @@ end
 # but apparently not. Need to figure out why, but not now.
 ActionController::Routing::Routes.add_route "/tests/:action", :controller => "tests"
 
-module RspecIntegrationTesting
+module Spectie
   describe "Rails Stories" do
 
     track_example_run_state
