@@ -5,7 +5,7 @@ namespace :package do
       gem.name = %q{spectie}
       gem.summary = %q{A Ruby integration testing framework written on top of RSpec.}
       gem.description = gem.summary + "yea"
-      gem.platform = "Gem::Platform::Ruby"
+      gem.platform = Gem::Platform::RUBY
       gem.required_ruby_version = '>= 1.8.6'
       gem.add_dependency('rspec', '>= 1.2.7')
 
@@ -24,7 +24,7 @@ namespace :package do
 
       gem.require_paths = ["lib"]
       gem.files = Dir["**/*"] 
-      gem.files.reject! { |f| !f.match(/^vendor(\/|$)/).nil? }
+      gem.files.reject! { |f| !f.match(/^(vendor|pkg)(\/|$)/).nil? }
       gem.test_files = Dir["spec/**/*_spec.rb"]
 
       # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
