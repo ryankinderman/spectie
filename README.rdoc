@@ -1,26 +1,16 @@
 = Spectie
 
-Spectie (rhymes with "necktie") is a pure Ruby BDD integration testing framework for 
-RSpec. 
+Spectie (rhymes with "necktie") is a pure Ruby BDD integration testing framework for RSpec. 
 
-The philosophy of Spectie is that, since the business stakeholders on most projects
-don't care about exactly how you test, you're free to write the integration tests on
-a project how *you*, the developer, want in order to ensure that the implementation is 
-correct, easily understood, and maintainable. Furthermore, since you're a developer, 
-the easiest, most straight-forward, and most maintainable way for you to write your 
-tests is by using the highly expressive language that is Ruby. That being said, the 
-ability of a developer to write code in a top-down, BDD fashion will help ensure that 
-the code directly satisfies a business requirement, and doesn't get over-engineered, 
-and over-complicated.
+Spectie was written with the following beliefs:
 
-Spectie tries to strike the proper balance between writing readable tests, and just 
-getting your work done in the most efficient way possible. It does this by providing 
-a consistent structure for writing your integration test code in a BDD fashion, with 
-the breakdown of features, scenarios, and their given/when/then statements. However, 
-a little bit of syntactic sugar goes a long way to aid in the understanding of code, 
-while too much can add unnecessary complexity and actually decrease maintainability. 
-So, Spectie keeps things pretty close to the underlying technology at all times, 
-since most of the time, it's a developer that's *really* writing the tests.
+* Business stakeholders or analysts are often not writing comprehensive (or any) acceptance criteria.
+* Business stakeholders or analysts are usually unwilling or unable to follow a strict format for writing the acceptance criteria that they _are_ writing.
+* On many projects, the communication with the business stakeholders or analysts are accessible enough that written acceptance criteria is not necessary, but discussed requirements still need to be implemented, and therefore need to be tested.
+* Good developers recognize the benefits of top-down, BDD-style integration testing in helping to ensure that the code that is written to implement a feature directly satisfies business requirements, and doesn't get over-engineered or over-complicated.
+* Good developers love Ruby.
+
+Spectie tries to strike the proper balance between writing readable tests, and just getting your work done in the most efficient way possible. It does this by providing a consistent structure for writing your integration test code in a BDD fashion, with the breakdown of features, scenarios, and their given/when/then statements. However, a little bit of syntactic sugar goes a long way to aid in the understanding of code, while too much can add unnecessary complexity and actually decrease maintainability.  So, Spectie keeps things pretty close to the underlying technology at all times, since most of the time, it's a developer that's *really* writing the tests.
 
 With these ideas in mind, what Spectie provides is:
 
