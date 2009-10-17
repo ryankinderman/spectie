@@ -23,7 +23,7 @@ namespace :package do
       gem.date = Time.now.strftime("%Y-%m-%d")
       gem.email = %q{ryan@kinderman.net}
       gem.homepage = %q{http://github.com/ryankinderman/spectie}
-      gem.rubyforge_project = %q{spectie}
+      gem.rubyforge_project = %q{kinderman}
 
       gem.has_rdoc = true
       gem.rdoc_options = ["--charset=UTF-8"]
@@ -39,6 +39,10 @@ namespace :package do
 
       # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     end
+
+    Jeweler::RubyforgeTasks.new do |rubyforge|
+      rubyforge.doc_task = "rdoc"
+    end    
   rescue LoadError
     puts "Jeweler not available. It's only needed if you're going to build the gem for this library. Install it with something like: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
   end
