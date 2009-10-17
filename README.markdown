@@ -10,8 +10,17 @@ the easiest, most straight-forward and maintainable way for you to write your te
 by using the highly expressive language that you're already coding in for the project;
 that's Ruby, baby!
 
-Advantages of having your acceptance tests written in Ruby:
+With this philosophy in mind, what Spectie provides is:
 
+* A small number of methods on top of RSpec for making your acceptance tests readable. This isn't much more than "Given/When/Then".
+* A configuration and mapping layer for different integration testing code, such as what's provided by ActionController's integration.rb, or the Ruby client for Selenium.
+* Common functionality for supported integration testing solutions, such as the option to restart the Selenium browser between tests, or simply clear the cookies.
+
+Advantages of having your acceptance tests written with Spectie:
+
+* It's Ruby.
+* If you're familiar with RSpec already, all the same functionality is available.
+* All new syntax beyond RSpec is strictly optional.
 * Use familiar methods for code navigation and reuse.
 * Start simple, have everything in one place, and break common functionality into separate files when you're ready, and _not_ as a rule.
 
@@ -46,6 +55,15 @@ Advantages of having your acceptance tests written in Ruby:
     end
 
 ## Installation
+
+### Gem
+    sudo gem install spectie
+
+### Rails plugin
+    script/plugin install git://github.com/ryankinderman/spectie.git 
+
+### Git
+    git clone git://github.com/ryankinderman/spectie.git
 
 ## Configuration
 ### Ruby on Rails
