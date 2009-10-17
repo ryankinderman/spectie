@@ -14,7 +14,6 @@ namespace :package do
         by using the highly expressive language that you're already coding in for the project;
         that's Ruby, baby!
       EOF
-      gem.description = gem.description.split(/\s*\n\s*/).join(" ").gsub(/^\s+/, '')
       gem.platform = Gem::Platform::RUBY
       gem.required_ruby_version = '>= 1.8.6'
       gem.add_dependency('rspec', '>= 1.2.7')
