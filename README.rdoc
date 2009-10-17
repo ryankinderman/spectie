@@ -1,31 +1,42 @@
 = Spectie
 
-Spectie (rhymes with "necktie") is a pure Ruby acceptance testing framework for RSpec. 
+Spectie (rhymes with "necktie") is a pure Ruby BDD integration testing framework for 
+RSpec. 
 
 The philosophy of Spectie is that, since the business stakeholders on most projects
-don't care about exactly how you test, you're free to write the acceptance tests on
-a project how *you*, the developer, need to in order to ensure that the implementation
-is correct, easily understood, and maintainable. Furthermore, since you're a developer, 
-the easiest, most straight-forward and maintainable way for you to write your tests is
-by using the highly expressive language that you're already coding in for the project;
-that's Ruby, baby!
+don't care about exactly how you test, you're free to write the integration tests on
+a project how *you*, the developer, want in order to ensure that the implementation is 
+correct, easily understood, and maintainable. Furthermore, since you're a developer, 
+the easiest, most straight-forward, and most maintainable way for you to write your 
+tests is by using the highly expressive language that is Ruby. That being said, the 
+ability of a developer to write code in a top-down, BDD fashion will help ensure that 
+the code directly satisfies a business requirement, and doesn't get over-engineered, 
+and over-complicated.
 
-With this philosophy in mind, what Spectie provides is:
+Spectie tries to strike the proper balance between writing readable tests, and just 
+getting your work done in the most efficient way possible. It does this by providing 
+a consistent structure for writing your integration test code in a BDD fashion, with 
+the breakdown of features, scenarios, and their given/when/then statements. However, 
+a little bit of syntactic sugar goes a long way to aid in the understanding of code, 
+while too much can add unnecessary complexity and actually decrease maintainability. 
+So, Spectie keeps things pretty close to the underlying technology at all times, 
+since most of the time, it's a developer that's *really* writing the tests.
 
-* A small number of methods on top of RSpec for making your acceptance tests readable. This isn't much more than "Given/When/Then".
+With these ideas in mind, what Spectie provides is:
+
+* A small number of methods on top of RSpec for making your integration tests readable. This isn't much more than "Given/When/Then".
 * A configuration and mapping layer for different integration testing code, such as what's provided by ActionController's integration.rb, or the Ruby client for Selenium.
 * Common functionality for supported integration testing solutions, such as the option to restart the Selenium browser between tests, or simply clear the cookies.
 
-Advantages of having your acceptance tests written with Spectie:
+Advantages of having your integration tests written with Spectie:
 
 * It's Ruby.
 * If you're familiar with RSpec already, all the same functionality is available.
-* All new syntax beyond RSpec is strictly optional.
+* All new syntax beyond RSpec is kept to a minimum, and exists solely to facilitate developer-driven BDD.
 * Use familiar methods for code navigation and reuse.
-* Start simple, have everything in one place, and break common functionality into separate files when you're ready, and _not_ as a rule.
 
 == Example
-=== Rails integration test
+=== Rails
   describe "Compelling Feature" do
     scenario "As a user, I would like to use a compelling feature" do
       Given :i_have_an_account
@@ -70,7 +81,7 @@ Advantages of having your acceptance tests written with Spectie:
 In <em>spec/spec_helper.rb</em>, after <tt>require 'spec/rails'</tt>, add:
   require 'spectie/rails'
 
-That's it. Spectie will register itself with RSpec, so you can run your integration tests with the usual <tt>rake spec:integration</tt> command.
+That's it. Spectie registers itself with RSpec, so you can run your integration tests with the usual <tt>rake spec:integration</tt> command. Also, all of the usual methods in a {Rails integration testing session}[http://api.rubyonrails.org/classes/ActionController/Integration/Session.html] are available for you to use as well.
 
 === Selenium
 TODO
