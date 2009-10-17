@@ -26,14 +26,6 @@ Advantages of having your acceptance tests written with Spectie:
 
 == Example
 === Rails integration test
-  # ... require app ...
-
-  require "rspec"
-  require "spectie"
-  Spec::Runner.configure do |config|
-    config.mock_with :mocha
-  end
-
   describe "Compelling Feature" do
     scenario "As a user, I would like to use a compelling feature" do
       Given :i_have_an_account
@@ -54,7 +46,7 @@ Advantages of having your acceptance tests written with Spectie:
 
     def i_access_a_compelling_feature
       get compelling_feature_path
-      response.should be_successful
+      response.should be_success
     end 
 
     def i_am_presented_with_stunning_results
@@ -75,6 +67,9 @@ Advantages of having your acceptance tests written with Spectie:
 
 == Configuration
 === Ruby on Rails
+In <em>spec/spec_helper.rb</em>, after <tt>require 'spec/rails'</tt>, add:
+  require 'spectie/rails'
+
 === Selenium
 
 == Author
