@@ -4,7 +4,16 @@ namespace :package do
     Jeweler::Tasks.new do |gem|
       gem.name = %q{spectie}
       gem.summary = %q{A Ruby integration testing framework written on top of RSpec.}
-      gem.description = gem.summary + "yea"
+      gem.description = <<-EOF
+        Spectie (rhymes with "necktie") is a pure Ruby acceptance testing framework for RSpec. 
+        The philosophy of Spectie is that, since the business stakeholders on most projects
+        don't care about exactly how you test, you're free to write the acceptance tests on
+        a project how *you*, the developer, need to in order to ensure that the implementation
+        is correct, easily understood, and maintainable. Furthermore, since you're a developer, 
+        the easiest, most straight-forward and maintainable way for you to write your tests is
+        by using the highly expressive language that you're already coding in for the project;
+        that's Ruby, baby!
+      EOF
       gem.platform = Gem::Platform::RUBY
       gem.required_ruby_version = '>= 1.8.6'
       gem.add_dependency('rspec', '>= 1.2.7')
