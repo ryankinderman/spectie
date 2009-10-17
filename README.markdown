@@ -25,7 +25,7 @@ Advantages of having your acceptance tests written with Spectie:
 * Start simple, have everything in one place, and break common functionality into separate files when you're ready, and _not_ as a rule.
 
 ## Example
-
+### Rails integration test
     describe "Compelling Feature" do
       scenario "As a user, I would like to use a compelling feature" do
         Given :i_have_an_account
