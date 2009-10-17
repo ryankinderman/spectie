@@ -38,11 +38,11 @@ module Spectie
                 # do nothing so that the mock persists through to the second example group
               end
             end
-            example_group1.scenario "The selenium driver is started once" do
+            example_group1.Scenario "The selenium driver is started once" do
               start_call_count.should == 1
             end
             example_group2 = Class.new(SeleniumStoryExampleGroup)
-            example_group2.scenario "The selenium driver is still started once" do
+            example_group2.Scenario "The selenium driver is still started once" do
               start_call_count.should == 1
             end
 
@@ -69,11 +69,11 @@ module Spectie
                 # do nothing so that the mock persists through to the second example group
               end
             end
-            example_group1.scenario "The selenium driver is started once" do
+            example_group1.Scenario "The selenium driver is started once" do
               start_call_count.should == 1
             end
             example_group2 = Class.new(SeleniumStoryExampleGroup)
-            example_group2.scenario "The selenium driver is started twice" do
+            example_group2.Scenario "The selenium driver is started twice" do
               start_call_count.should == 2
             end
             

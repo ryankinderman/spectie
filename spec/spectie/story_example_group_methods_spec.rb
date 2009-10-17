@@ -10,12 +10,12 @@ module Spectie
 
     track_example_run_state
 
-    it "supports 'xscenario' method for disabling an example" do
+    it "supports 'xScenario' method for disabling an example" do
       example_group = Class.new(StoryExampleGroup)
       example_ran_as_scenario = false
       Kernel.expects(:warn).with { |message| message =~ /^Example disabled/  }
 
-      example_group.xscenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.xScenario "As a user, I want to make a series of requests for our mutual benefit" do
         example_ran_as_scenario = true
       end
       example_group.run(@options)
@@ -25,7 +25,7 @@ module Spectie
 
     it "supports pending scenarios" do
       example_group = Class.new(StoryExampleGroup)
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit"
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit"
       @options.reporter.expects(:example_finished).with(anything, ::Spec::Example::ExamplePendingError)
 
       example_group.run(@options)
@@ -35,7 +35,7 @@ module Spectie
       example_group = Class.new(StoryExampleGroup)
       example_ran_as_scenario = false
 
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
         example_ran_as_scenario = true
       end
       example_group.run(@options)
@@ -51,7 +51,7 @@ module Spectie
           end
         end
 
-        example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+        example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
           send scenario_method, :i_am_executed
         end
 
@@ -79,7 +79,7 @@ module Spectie
       end
       example_group = Class.new(parent_example_group)
 
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
         Given :i_am_executed
       end
       example_group.run(@options)
@@ -105,7 +105,7 @@ module Spectie
         end
       end
 
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
         Given :i_am_executed
       end
       example_group.run(@options)
@@ -120,7 +120,7 @@ module Spectie
           attr_accessor :nested_statement_was_executed
         end
       end
-      example_group.scenario "As a tester, I want to be able to write nested dsl statements" do
+      example_group.Scenario "As a tester, I want to be able to write nested dsl statements" do
         Given :this_statement_takes_a_block do 
           Then :i_can_nest_a_statement
         end
@@ -151,7 +151,7 @@ module Spectie
           attr_accessor :called_the_method
         end
       end
-      example_group.scenario "As a tester, I want to start a scenario statement with 'should'" do
+      example_group.Scenario "As a tester, I want to start a scenario statement with 'should'" do
         Given :this_statement_calls_a_method_starting_with_should
       end
       example_group.dsl do 
@@ -173,7 +173,7 @@ module Spectie
     it "shares state between the scenario and the scenario statements" do
       example_group = Class.new(StoryExampleGroup)
 
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
         Given :the_example_has_state
         @state.should == 1
         @state = 2
@@ -204,7 +204,7 @@ module Spectie
         end
       end
 
-      example_group.scenario "As a user, I want to make a series of requests for our mutual benefit" do
+      example_group.Scenario "As a user, I want to make a series of requests for our mutual benefit" do
         Given :a_normal_method_defined_in_the_example_group
       end
 

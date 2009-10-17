@@ -14,13 +14,13 @@ module Spectie
             class_eval &implementation
           end
 
-          def scenario(description, options={}, backtrace=nil, &implementation)
+          def Scenario(description, options={}, backtrace=nil, &implementation)
             example(description, options, backtrace) do
               instance_eval &implementation
             end
           end
 
-          def xscenario(description, options={}, &implementation)
+          def xScenario(description, options={}, &implementation)
             xexample description, options, &implementation
           end
 

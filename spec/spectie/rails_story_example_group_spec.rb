@@ -19,7 +19,7 @@ module Spectie
 
     it "can include a helper module that defines method_missing" do
       (example_group = Class.new(RailsStoryExampleGroup)).class_eval do
-        scenario "I'm going to call a method that doesn't exist in the integration session" do
+        Scenario "I'm going to call a method that doesn't exist in the integration session" do
           i_dont_exist_in_the_integration_session
         end
       end
@@ -31,7 +31,7 @@ module Spectie
 
     it "can make a controller request and inspect the response" do
       example_group = Class.new(RailsStoryExampleGroup)
-      example_group.scenario "Make a request to a controller" do
+      example_group.Scenario "Make a request to a controller" do
         Given :i_want_to_write_an_integration_test_for_rails
         When  :i_make_a_controller_request
         Then  :i_can_assert_the_response
