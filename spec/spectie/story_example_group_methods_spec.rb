@@ -55,7 +55,7 @@ module Spectie
           send scenario_method, :i_am_executed
         end
 
-        dsl = example_group.dsl do
+        example_group.class_eval do
           def i_am_executed
             self.class.scenario_statement_was_executed = true
           end
@@ -72,7 +72,7 @@ module Spectie
           attr_accessor :scenario_statement_was_executed
         end
       end
-      parent_example_group.dsl do
+      parent_example_group.class_eval do
         def i_am_executed
           self.class.scenario_statement_was_executed = true
         end
@@ -93,13 +93,13 @@ module Spectie
           attr_accessor :scenario_statement_was_executed
         end
       end
-      parent_example_group.dsl do
+      parent_example_group.class_eval do
         def i_am_executed
           self.class.scenario_statement_was_executed = "parent"
         end
       end
       example_group = Class.new(parent_example_group)
-      example_group.dsl do
+      example_group.class_eval do
         def i_am_executed
           self.class.scenario_statement_was_executed = "child"
         end
@@ -125,7 +125,7 @@ module Spectie
           Then :i_can_nest_a_statement
         end
       end
-      example_group.dsl do 
+      example_group.class_eval do 
         def this_statement_takes_a_block
           yield
         end
@@ -154,7 +154,7 @@ module Spectie
       example_group.Scenario "As a tester, I want to start a scenario statement with 'should'" do
         Given :this_statement_calls_a_method_starting_with_should
       end
-      example_group.dsl do 
+      example_group.class_eval do 
         def this_statement_calls_a_method_starting_with_should
           should_do_something
         end
@@ -180,7 +180,7 @@ module Spectie
         Then  :the_state_is_shared
       end
 
-      dsl = example_group.dsl do
+      example_group.class_eval do
         def the_example_has_state
           @state = 1
         end

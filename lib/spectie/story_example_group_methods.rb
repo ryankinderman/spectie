@@ -10,10 +10,6 @@ module Spectie
 
           def scenario_methods; [:Given, :When, :Then, :And] end
 
-          def dsl(&implementation)
-            class_eval &implementation
-          end
-
           def Scenario(description, options={}, backtrace=nil, &implementation)
             example(description, options, backtrace) do
               instance_eval &implementation

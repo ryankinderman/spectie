@@ -5,19 +5,28 @@ rescue LoadError
 end
 
 namespace :spec do
-  Spec::Rake::SpecTask.new(:core) do |spec|
-    spec.spec_files = ['spec/spectie_spec.rb', 'spec/spectie/story_example_group_methods_spec.rb']
+  namespace :spec_tasks do
+    Spec::Rake::SpecTask.new(:core) do |spec|
+      spec.spec_files = ['spec/spectie_spec.rb', 'spec/spectie/story_example_group_methods_spec.rb']
+    end
+
+    Spec::Rake::SpecTask.new(:rails) do |spec|
+      spec.spec_files = ['spec/spectie/rails_story_example_group_spec.rb']
+    end
+
+    Spec::Rake::SpecTask.new(:selenium) do |spec|
+      spec.spec_files = ['spec/spectie/selenium/**/*_spec.rb']
+    end
   end
 
-  Spec::Rake::SpecTask.new(:rails) do |spec|
-    spec.spec_files = ['spec/spectie/rails_story_example_group_spec.rb']
+  (all = [:core, :rails, :selenium]).each do |task_name|
+    task task_name do
+      puts "\nRunning suite: #{task_name}"
+      Rake.application["spec:spec_tasks:#{task_name}".to_sym].invoke
+    end
   end
 
-  Spec::Rake::SpecTask.new(:selenium) do |spec|
-    spec.spec_files = ['spec/spectie/selenium/**/*_spec.rb']
-  end
-
-  task :all => [:core, :rails, :selenium]
+  task :all => all
 
 #  Spec::Rake::SpecTask.new(:rcov) do |spec|
 #  #    spec.libs << 'lib'
