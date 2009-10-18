@@ -27,8 +27,8 @@ Advantages of having your integration tests written with Spectie:
 
 == Example
 === Rails
-  describe "Compelling Feature" do
-    scenario "As a user, I would like to use a compelling feature" do
+  Feature "Compelling Feature" do
+    Scenario "As a user, I would like to use a compelling feature" do
       Given :i_have_an_account
       And   :i_have_logged_in
 
