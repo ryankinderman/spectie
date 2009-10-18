@@ -20,18 +20,18 @@ class ExampleState
   end
 end
 
-class HaveFailed
+class BeSuccessful
   def matches?(example)
     @example = example
-    example.failed?
+    !example.failed?
   end
 
   def description
-    "have failed"
+    "be successful"
   end
 
-  def failure_message_for_should_not
-    "expected example not to fail, but it did with:\n" +
+  def failure_message_for_should
+    "expected example to be successful, but it failed with:\n" +
     "  Message: #{@example.exception.message}\n" +
     "  Backtrace:\n" +
     "    #{@example.exception.backtrace.join("\n    ")}"
@@ -49,8 +49,8 @@ Spec::Example::ExampleGroupMethods.module_eval do
         def example
           @example_state
         end
-        def have_failed
-          HaveFailed.new
+        def be_successful
+          BeSuccessful.new
         end
       end
       @options.formatters << @formatter

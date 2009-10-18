@@ -47,7 +47,7 @@ module Spectie
             end
 
             with_selenium_control { @options.run_examples }
-            example.should_not have_failed
+            example.should be_successful
           ensure
             Spec::Runner.configuration.selenium.start_browser_once = @original_value
           end
@@ -78,7 +78,7 @@ module Spectie
             end
             
             with_selenium_control { @options.run_examples }
-            example.should_not have_failed
+            example.should be_successful
           ensure
             Spec::Runner.configuration.selenium.start_browser_once = @original_value
           end

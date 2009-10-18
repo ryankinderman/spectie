@@ -26,7 +26,7 @@ module Spectie
 
       @options.run_examples
 
-      example.should_not have_failed
+      example.should be_successful
     end
 
     it "can make a controller request and inspect the response" do

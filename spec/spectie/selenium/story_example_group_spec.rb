@@ -29,7 +29,7 @@ module Spectie
 
       with_selenium_control { @options.run_examples }
 
-      example.should_not have_failed
+      example.should be_successful
     end
 
     share_examples_for "the browser is in a consistent state for each example" do
@@ -78,7 +78,7 @@ module Spectie
 
         with_selenium_control { @options.run_examples }
 
-        example.should_not have_failed
+        example.should be_successful
       end
 
       it "deletes all cookies between each example" do
@@ -103,7 +103,7 @@ module Spectie
 
         with_selenium_control { @options.run_examples }
 
-        example.should_not have_failed
+        example.should be_successful
       end
     end
 

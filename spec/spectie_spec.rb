@@ -32,7 +32,7 @@ describe "Spectie" do
 
     @options.run_examples
 
-    example.should_not have_failed
+    example.should be_successful
     example_group.send(:class_variable_get, :@@scenario_called).should be_true
   end
 
