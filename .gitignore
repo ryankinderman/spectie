@@ -8,4 +8,3 @@ spec/selenium_config.rb
 tags
 vendor/*
 !vendor/.gitignore
-*.gemspec
