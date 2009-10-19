@@ -10,12 +10,14 @@ module Spectie
 
           def scenario_methods; [:Given, :When, :Then, :And] end
 
+          # Creates a scenario example within a feature (see Spectie::Main#Feature).
           def Scenario(description, options={}, backtrace=nil, &implementation)
             example(description, options, backtrace) do
               instance_eval &implementation
             end
           end
 
+          # Disables a scenario.
           def xScenario(description, options={}, &implementation)
             xexample description, options, &implementation
           end

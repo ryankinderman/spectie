@@ -78,9 +78,7 @@ TODO
 
 == Author
 
-Ryan Kinderman
-
-ryan@kinderman.net
+Ryan Kinderman (ryan@kinderman.net)
 
 == Copyright
 
