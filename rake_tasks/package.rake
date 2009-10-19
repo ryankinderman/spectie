@@ -25,7 +25,7 @@ namespace :package do
       gem.rubyforge_project = %q{kinderman}
 
       gem.has_rdoc = true
-      gem.rdoc_options = ["--charset=UTF-8"]
+      gem.rdoc_options = ["--charset=UTF-8 --ri-site"]
       gem.extra_rdoc_files = [
         "LICENSE",
          "README.rdoc"
