@@ -29,7 +29,7 @@ rescue LoadError => e
   end
 end
 
-class ActionController::IntegrationTest
+ActionController::IntegrationTest.class_eval do
   alias_method :orig_initialize, :initialize
   def initialize(*args)
     super
