@@ -25,10 +25,10 @@ namespace :package do
       gem.rubyforge_project = %q{kinderman}
 
       gem.has_rdoc = true
-      gem.rdoc_options = ["--charset=UTF-8 --ri-site"]
+      gem.rdoc_options = ["--charset=UTF-8"]
       gem.extra_rdoc_files = [
         "LICENSE",
-         "README.rdoc"
+        "README.rdoc"
       ]
 
       gem.require_paths = ["lib"]
@@ -45,4 +45,7 @@ namespace :package do
   rescue LoadError
     puts "Jeweler not available. It's only needed if you're going to build the gem for this library. Install it with something like: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
   end
+
+  desc "Cleans the project package artifacts, generates all files needed to build the gem, and builds it"
+  task :full => ["clean", "rdoc", "gemspec", "build"]
 end

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Kinderman"]
-  s.date = %q{2009-10-21}
+  s.date = %q{2009-10-22}
   s.description = %q{        Spectie (rhymes with "necktie") is a pure Ruby acceptance testing framework for RSpec. 
         The philosophy of Spectie is that, since the business stakeholders on most projects
         don't care about exactly how you test, you're free to write the acceptance tests on
@@ -85,7 +85,7 @@ Gem::Specification.new do |s|
      "tags"
   ]
   s.homepage = %q{http://github.com/ryankinderman/spectie}
-  s.rdoc_options = ["--charset=UTF-8 --ri-site"]
+  s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.8.6")
   s.rubyforge_project = %q{kinderman}
