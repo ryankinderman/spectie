@@ -41,11 +41,20 @@ namespace :package do
 
     Jeweler::RubyforgeTasks.new do |rubyforge|
       rubyforge.doc_task = "rdoc"
-    end    
+    end
+
+    Jeweler::GemcutterTasks.new
   rescue LoadError
     puts "Jeweler not available. It's only needed if you're going to build the gem for this library. Install it with something like: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
   end
 
   desc "Cleans the project package artifacts, generates all files needed to build the gem, and builds it"
   task :full => ["clean", "rdoc", "gemspec", "build"]
+
+  namespace :release do
+    desc "Do the full packaging of the gem and release it everywhere"
+    task :full => ["package:full", "package:rubyforge:release", "package:gemcutter:release"] do
+      
+    end
+  end
 end
