@@ -2,7 +2,6 @@
 .DS_Store
 coverage
 doc
-*.gemspec
 pkg
 rdoc
 spec/selenium_config.rb
