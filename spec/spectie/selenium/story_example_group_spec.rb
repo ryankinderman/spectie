@@ -6,7 +6,7 @@ module Spectie
     track_example_run_state
 
     it "can open a path, inspect response, and interact with elements" do
-      example_group = Class.new(SeleniumStoryExampleGroup)
+      example_group = Class.new(Spectie::Selenium::StoryExampleGroup)
       example_group.Scenario "Open a page and click on a link" do
         Given :i_am_on_a_page_with_a_link
         When  :i_click_a_link
@@ -34,7 +34,7 @@ module Spectie
 
     share_examples_for "the browser is in a consistent state for each example" do
       it "supports a session for each example in a group" do
-        example_group = Class.new(SeleniumStoryExampleGroup)
+        example_group = Class.new(Spectie::Selenium::StoryExampleGroup)
         example_group.Scenario "I can see my session info when I log in" do
           Given :i_log_in
           When  :i_am_sent_back_to_the_home_page
@@ -82,7 +82,7 @@ module Spectie
       end
 
       it "deletes all cookies between each example" do
-        example_group = Class.new(SeleniumStoryExampleGroup)
+        example_group = Class.new(Spectie::Selenium::StoryExampleGroup)
         example_group.Scenario "I do something that creates cookies" do
           Given :i_create_a_bunch_of_cookies
         end

@@ -10,40 +10,42 @@ rescue LoadError => e
 end
 
 module Spectie
-  class SeleniumStoryExampleGroup
-    include StoryExampleGroupMethods
-    include Selenium::Client::SeleniumHelper
+  module Selenium
+    class StoryExampleGroup
+      include StoryExampleGroupMethods
+      include ::Selenium::Client::SeleniumHelper
 
-    selenium = nil
-    selenium_config = Spec::Runner.configuration.selenium
+      selenium = nil
+      selenium_config = Spec::Runner.configuration.selenium
 
-    before :suite do
-      if selenium_config.controlled? and selenium_config.start_browser_once
-        selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
-        selenium.start
+      before :suite do
+        if selenium_config.controlled? and selenium_config.start_browser_once
+          selenium = ::Selenium::Client::Driver.new(selenium_config.driver_options)
+          selenium.start
+        end
       end
-    end
 
-    after :suite do
-      if selenium_config.controlled? and selenium_config.start_browser_once
-        selenium.stop
-      end
-    end
-
-    before :each do
-      if selenium_config.controlled? and !selenium_config.start_browser_once
-        selenium = Selenium::Client::Driver.new(selenium_config.driver_options)
-        selenium.start
-      end
-      @selenium = selenium
-    end
-
-    after :each do
-      if selenium_config.controlled?
-        if selenium_config.start_browser_once
-          selenium.delete_all_visible_cookies
-        else
+      after :suite do
+        if selenium_config.controlled? and selenium_config.start_browser_once
           selenium.stop
+        end
+      end
+
+      before :each do
+        if selenium_config.controlled? and !selenium_config.start_browser_once
+          selenium = ::Selenium::Client::Driver.new(selenium_config.driver_options)
+          selenium.start
+        end
+        @selenium = selenium
+      end
+
+      after :each do
+        if selenium_config.controlled?
+          if selenium_config.start_browser_once
+            selenium.delete_all_visible_cookies
+          else
+            selenium.stop
+          end
         end
       end
     end

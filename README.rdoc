@@ -1,6 +1,6 @@
 = Spectie
 
-Spectie (rhymes with "necktie") is a pure Ruby BDD integration testing framework for RSpec. 
+Spectie (rhymes with "necktie") is a pure Ruby behavior-driven integration testing framework for RSpec. 
 
 Spectie was written with the following beliefs:
 
