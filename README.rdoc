@@ -74,7 +74,46 @@ In <em>spec/spec_helper.rb</em>, after <tt>require 'spec/rails'</tt>, add:
 That's it. Spectie registers itself with RSpec, so you can run your integration tests with the usual <tt>rake spec:integration</tt> command. Also, all of the usual methods in a {Rails integration testing session}[http://api.rubyonrails.org/classes/ActionController/Integration/Session.html] are available for you to use as well.
 
 === Selenium
-TODO
+In <em>spec/spec_helper.rb</em>, add:
+  require 'spectie/selenium'
+
+The Selenium example group uses the Ruby client for Selenium Remote Control. Spectie encapsulates 
+the communication with the Selenium driver to:
+
+* Target and connect to a remote machine
+* Start and stop the web browser
+
+To this end, you can configure Selenium along with the rest of your RSpec configuration like so:
+
+  Spec::Runner.configure do |config|
+    # Indicates whether Spectie should control the Selenium driver's starting 
+    # and stopping, cookie cleanup, etc.
+    #
+    # Set this to 'false' to manage this stuff outside of Spectie.
+    config.selenium.controlled = true
+
+    # Specify the connection options for the Selenium driver.
+    # :host       the host name or IP address of the machine running the Selenium 
+    #             server
+    # :port       the port of the Selenium server
+    # :browser    the browser command to pass to Selenium server
+    # :timeout_in_seconds   how long to wait before a wait_for_* method
+    # :url        the URL that the machine running Selenium server should use to 
+    #             connect to the web app being tested
+    config.selenium.driver_options = {
+      :host => "10.211.55.127",
+      :port => 4444,
+      :browser => "*firefox",
+      :timeout_in_seconds => 300,
+      :url => "http://10.211.55.1:4567"
+    }
+
+    # Indicates whether Spectie should only start the browser once for the entire 
+    # test suite, and just clear out the cookies before each test, or whether it 
+    # should restart the browser between tests.
+    config.selenium.start_browser_once = true
+
+  end
 
 == Author
 
