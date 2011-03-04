@@ -36,10 +36,10 @@ module Spectie
         When  :i_make_a_controller_request
         Then  :i_can_assert_the_response
       end
-      
+
       example_group.class_eval do
         def i_want_to_write_an_integration_test_for_rails; end
-        
+
         def i_make_a_controller_request
           get "/tests"
         end
