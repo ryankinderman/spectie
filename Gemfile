@@ -8,7 +8,7 @@ group :development do
 end
 
 group :runtime do
-  gem 'rspec', '~> 1.2.9'
+  gem 'rspec', '~> 1.3.1'
   gem 'rspec-rails', '1.2.7.1'
   gem 'selenium-client'
 end
