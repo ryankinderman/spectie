@@ -16,7 +16,6 @@ namespace :package do
       EOF
       gem.platform = Gem::Platform::RUBY
       gem.required_ruby_version = '>= 1.8.6'
-      gem.add_dependency('rspec', '>= 1.2.7')
 
       gem.authors = ["Ryan Kinderman"]
       gem.date = Time.now.strftime("%Y-%m-%d")

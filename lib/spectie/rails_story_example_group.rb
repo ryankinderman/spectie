@@ -23,7 +23,7 @@ begin
   require spec_rails_path
 rescue LoadError => e
   if e.message =~ /#{Regexp.escape(spec_rails_path)}$/
-    raise "RSpec-Rails not available. Install it with sudo gem install rspec-rails"
+    raise "RSpec-Rails not available. Install it with gem install rspec-rails"
   else
     raise e
   end
