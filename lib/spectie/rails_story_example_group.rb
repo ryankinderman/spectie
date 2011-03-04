@@ -18,16 +18,7 @@ ActionController::IntegrationTest.class_eval do
   end
 end
 ###################################################################################
-begin
-  spec_rails_path = "spec/rails"
-  require spec_rails_path
-rescue LoadError => e
-  if e.message =~ /#{Regexp.escape(spec_rails_path)}$/
-    raise "RSpec-Rails not available. Install it with gem install rspec-rails"
-  else
-    raise e
-  end
-end
+require "spec/rails"
 
 ActionController::IntegrationTest.class_eval do
   alias_method :orig_initialize, :initialize
